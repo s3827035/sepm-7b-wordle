@@ -1,0 +1,8 @@
+{
+  "name": "src",
+  "version": "1.0.0",
+  "dependencies": {
+    "react": "^18.1.0",
+    "react-bootstrap": "^2.3.1"
+  }
+}

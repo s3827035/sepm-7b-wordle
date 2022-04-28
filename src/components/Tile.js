@@ -1,8 +1,7 @@
 function Tile(props) {
 
-
     return (
-        <div className="tile">
+        <div className={"tile" + (props.value !== "" ? ' filled' : '')}>
             {props.value}
         </div>
     );
