@@ -4,7 +4,8 @@ import Row from "./components/Row";
 import React, {useState, useEffect} from "react";
 import {Nav, Navbar, Container} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import row from "./components/Row";
+
+import toast, { Toaster } from 'react-hot-toast';
 
 function App() {
 
@@ -40,7 +41,7 @@ function App() {
 
             } else if (keyCode.includes("Enter")) {
 
-                if(currentColumn === 4) {
+                if (currentColumn === 5) {
 
                     let result = true;
 
@@ -53,18 +54,22 @@ function App() {
 
                 } else {
 
-                    // NOT ENOUGH LETTERS
+                    toast.error("Not enough letters!");
 
                 }
 
             } else if (keyCode.includes("Backspace")) {
 
-                let newRows = rows.slice();
+                if (currentColumn > 0) {
 
-                newRows[currentRow][currentColumn - 1] = "";
+                    let newRows = rows.slice();
 
-                setRows(newRows);
-                setCurrentColumn(currentColumn - 1);
+                    newRows[currentRow][currentColumn - 1] = "";
+
+                    setRows(newRows);
+                    setCurrentColumn(currentColumn - 1);
+
+                }
 
             }
 
@@ -79,6 +84,8 @@ function App() {
 
     return (
         <div className="App">
+
+            <div><Toaster/></div>
 
             <Navbar>
                 <Container>
