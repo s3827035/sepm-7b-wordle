@@ -8,14 +8,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import toast, {Toaster} from 'react-hot-toast';
 import Search from "./helpers/Search";
 
+const search = new Search();
+
+search.loadWordList();
+
 function App() {
 
     const [currentRow, setCurrentRow] = useState(0);
     const [currentColumn, setCurrentColumn] = useState(0);
-    const [words, setWords] = useState([]);
-    const search = new Search();
-
-    search.loadWordList();
 
     const [rows, setRows] = useState([
         ["", "", "", "", ""],

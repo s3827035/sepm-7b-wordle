@@ -1,14 +1,11 @@
-import WordList from '../static/words.txt';
-
 export default class Search {
 
-    loadWordList() {
+    async loadWordList() {
 
-        fetch(WordList)
-            .then(r => r.text())
-            .then(text => {
-                this.list = text.split("\r\n");
-            });
+        let data = await fetch("https://gist.githubusercontent.com/dracos/dd0668f281e685bad51479e5acaadb93/raw/ca9018b32e963292473841fb55fd5a62176769b5/valid-wordle-words.txt");
+        this.list = await data.text();
+
+        return this.list;
 
     }
 
