@@ -33,54 +33,50 @@ function App() {
         let keyPressed = e.key;
         let keyCode = e.code;
 
-        if (!e.repeat) {
+        if (keyCode.includes("Key") && currentColumn < 5) {
 
-            if (keyCode.includes("Key") && currentColumn < 5) {
+            let newRows = rows.slice();
 
-                let newRows = rows.slice();
+            newRows[currentRow][currentColumn] = keyPressed.toUpperCase();
 
-                newRows[currentRow][currentColumn] = keyPressed.toUpperCase();
+            setRows(newRows);
+            setCurrentColumn(currentColumn + 1);
 
-                setRows(newRows);
-                setCurrentColumn(currentColumn + 1);
+        } else if (keyCode.includes("Enter")) {
 
-            } else if (keyCode.includes("Enter")) {
+            if (currentColumn === 5) {
 
-                if (currentColumn === 5) {
+                let formedWord = rows[currentRow][0] + rows[currentRow][1] + rows[currentRow][2] + rows[currentRow][3] + rows[currentRow][4];
 
-                    let formedWord = rows[currentRow][0] + rows[currentRow][1] + rows[currentRow][2] + rows[currentRow][3] + rows[currentRow][4];
+                let result = search.isWordValid(formedWord);
 
-                    let result = search.isWordValid(formedWord);
+                if (result) {
 
-                    if (result) {
-
-                        setCurrentRow(currentRow + 1);
-                        setCurrentColumn(0);
-
-                    } else {
-
-                        toast.error("Not in the word list");
-
-                    }
+                    setCurrentRow(currentRow + 1);
+                    setCurrentColumn(0);
 
                 } else {
 
-                    toast.error("Not enough letters!");
+                    toast.error("Not in word list");
 
                 }
 
-            } else if (keyCode.includes("Backspace")) {
+            } else {
 
-                if (currentColumn > 0) {
+                toast.error("Not enough letters!" + currentColumn);
 
-                    let newRows = rows.slice();
+            }
 
-                    newRows[currentRow][currentColumn - 1] = "";
+        } else if (keyCode.includes("Backspace")) {
 
-                    setRows(newRows);
-                    setCurrentColumn(currentColumn - 1);
+            if (currentColumn > 0) {
 
-                }
+                let newRows = rows.slice();
+
+                newRows[currentRow][currentColumn - 1] = "";
+
+                setRows(newRows);
+                setCurrentColumn(currentColumn - 1);
 
             }
 
@@ -96,13 +92,12 @@ function App() {
     useEffect(() => {
 
 
-
     }, []);
 
     return (
         <div className="App">
 
-            <div><Toaster/></div>
+            <div className="error"><Toaster/></div>
 
             <Navbar>
                 <Container>

@@ -1,4 +1,4 @@
-import Search from "../helpers/Search";
+import Search from "../../helpers/Search";
 
 const search = new Search();
 
