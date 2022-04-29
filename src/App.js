@@ -5,12 +5,17 @@ import React, {useState, useEffect} from "react";
 import {Nav, Navbar, Container} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import toast, { Toaster } from 'react-hot-toast';
+import toast, {Toaster} from 'react-hot-toast';
+import Search from "./helpers/Search";
 
 function App() {
 
     const [currentRow, setCurrentRow] = useState(0);
     const [currentColumn, setCurrentColumn] = useState(0);
+    const [words, setWords] = useState([]);
+    const search = new Search();
+
+    search.loadWordList();
 
     const [rows, setRows] = useState([
         ["", "", "", "", ""],
@@ -43,12 +48,18 @@ function App() {
 
                 if (currentColumn === 5) {
 
-                    let result = true;
+                    let formedWord = rows[currentRow][0] + rows[currentRow][1] + rows[currentRow][2] + rows[currentRow][3] + rows[currentRow][4];
+
+                    let result = search.isWordValid(formedWord);
 
                     if (result) {
 
                         setCurrentRow(currentRow + 1);
                         setCurrentColumn(0);
+
+                    } else {
+
+                        toast.error("Not in the word list");
 
                     }
 
@@ -81,6 +92,12 @@ function App() {
         window.addEventListener('keydown', keyPressHandler);
         return () => window.removeEventListener("keydown", keyPressHandler);
     }, [rows, currentRow, currentColumn]);
+
+    useEffect(() => {
+
+
+
+    }, []);
 
     return (
         <div className="App">
