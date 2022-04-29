@@ -8,16 +8,24 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import toast, {Toaster} from 'react-hot-toast';
 import Search from "./helpers/Search";
 
+// Create the Search object
+
 const search = new Search();
 
-search.loadWordList();
+// Load the word list in the memory, ignore the promise
+
+search.loadWordList().then();
 
 function App() {
+
+    // Variables that point to the user row and column position
 
     const [currentRow, setCurrentRow] = useState(0);
     const [currentColumn, setCurrentColumn] = useState(0);
 
-    const [rows, setRows] = useState([
+    // Game board
+
+    const [board, setBoard] = useState([
         ["", "", "", "", ""],
         ["", "", "", "", ""],
         ["", "", "", "", ""],
@@ -26,36 +34,62 @@ function App() {
         ["", "", "", "", ""]
     ]);
 
+    // Number of rows (~6)
+
     const numberOfRows = 6;
 
+    // Event handler for when the user presses a button
+
     const keyPressHandler = (e) => {
+
+        // Key pressed and its code
 
         let keyPressed = e.key;
         let keyCode = e.code;
 
+        // If a alphabet key was pressed and we have not filled all the columns yet
+
         if (keyCode.includes("Key") && currentColumn < 5) {
 
-            let newRows = rows.slice();
+            // Clone the array
+
+            let newRows = board.slice();
+
+            // Fill the alphabet in its position
 
             newRows[currentRow][currentColumn] = keyPressed.toUpperCase();
 
-            setRows(newRows);
+            // Set the variables
+
+            setBoard(newRows);
             setCurrentColumn(currentColumn + 1);
 
         } else if (keyCode.includes("Enter")) {
 
+            // If the user is on the last column
+
             if (currentColumn === 5) {
 
-                let formedWord = rows[currentRow][0] + rows[currentRow][1] + rows[currentRow][2] + rows[currentRow][3] + rows[currentRow][4];
+                // Form the whole word from the column values
+
+                let formedWord = board[currentRow][0] + board[currentRow][1] + board[currentRow][2] + board[currentRow][3] + board[currentRow][4];
+
+                // Check if the word is part of the list
 
                 let result = search.isWordValid(formedWord);
 
+                // If the word is valid
+
                 if (result) {
+
+                    // Switch the user into the next row and first column
 
                     setCurrentRow(currentRow + 1);
                     setCurrentColumn(0);
 
                 } else {
+
+                    // Show an error if the user is not part of the list
 
                     toast.error("Not in word list");
 
@@ -63,19 +97,29 @@ function App() {
 
             } else {
 
+                // Otherwise, show an error
+
                 toast.error("Not enough letters!" + currentColumn);
 
             }
 
         } else if (keyCode.includes("Backspace")) {
 
+            // If the user presses backspace and they are not on the first column
+
             if (currentColumn > 0) {
 
-                let newRows = rows.slice();
+                // Clone the array
+
+                let newRows = board.slice();
+
+                // Set the string value to empty
 
                 newRows[currentRow][currentColumn - 1] = "";
 
-                setRows(newRows);
+                // Update the variables
+
+                setBoard(newRows);
                 setCurrentColumn(currentColumn - 1);
 
             }
@@ -85,14 +129,16 @@ function App() {
     };
 
     useEffect(() => {
+
+        // Setup the event handler on every render based on the changes in the specified variables
+
         window.addEventListener('keydown', keyPressHandler);
+
+        // On destruction, also remove the event listener
+
         return () => window.removeEventListener("keydown", keyPressHandler);
-    }, [rows, currentRow, currentColumn]);
 
-    useEffect(() => {
-
-
-    }, []);
+    }, [board, currentRow, currentColumn]);
 
     return (
         <div className="App">
@@ -118,8 +164,10 @@ function App() {
 
             <div className="game-rows">
 
+                {/* Loop from 0 to 6 and draw the rows */}
+
                 {new Array(numberOfRows).fill(0).map((_, index) => (
-                    <Row key={index} values={rows[index]}/>
+                    <Row key={index} values={board[index]}/>
                 ))}
 
             </div>
