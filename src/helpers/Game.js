@@ -79,9 +79,9 @@ export default class Game {
 
                 for (let j = 0; j < todayWord.length; j++) {
 
-                    let thisLetter = wordLetter[j];
+                    let thisLetter = todayWord[j];
 
-                    if (thisLetter === foundAtOtherPlace) {
+                    if (thisLetter === myLetter) {
                         foundAtOtherPlace = true;
                         break;
                     }
