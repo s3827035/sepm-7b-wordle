@@ -2,7 +2,7 @@ export default class Search {
 
     randomWord() {
 
-        let length =  this.list.length;
+        let length = this.list.length;
         let rand = Math.round(Math.random() * (length - 1));
 
         return this.list.slice(rand, rand + 1)[0];
