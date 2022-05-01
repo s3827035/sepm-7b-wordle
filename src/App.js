@@ -82,6 +82,11 @@ function App() {
 
                 if (result) {
 
+                    // TODO:
+                    // If it is the correct guess, end the game
+
+
+
                     // Switch the user into the next row and first column
 
                     setCurrentRow(currentRow + 1);
