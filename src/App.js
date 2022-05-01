@@ -66,92 +66,98 @@ function App() {
         let keyPressed = e.key;
         let keyCode = e.code;
 
-        // If a alphabet key was pressed and we have not filled all the columns yet
+        // Do nothing if the game has ended
 
-        if (keyCode.includes("Key") && currentColumn < 5) {
+        if (currentRow < 6) {
 
-            // Clone the array
+            // If a alphabet key was pressed and we have not filled all the columns yet
 
-            let newRows = board.slice();
-
-            // Fill the alphabet in its position
-
-            newRows[currentRow][currentColumn] = keyPressed.toUpperCase();
-
-            // Set the variables
-
-            setBoard(newRows);
-            setCurrentColumn(currentColumn + 1);
-
-        } else if (keyCode.includes("Enter")) {
-
-            // If the user is on the last column
-
-            if (currentColumn === 5) {
-
-                // Form the whole word from the column values
-
-                let formedWord = board[currentRow][0] + board[currentRow][1] + board[currentRow][2] + board[currentRow][3] + board[currentRow][4];
-
-                // Check if the word is part of the list
-
-                let result = search.isWordValid(formedWord);
-
-                // If the word is valid
-
-                if (result) {
-
-                    // TODO:
-                    // If it is the correct guess, end the game
-
-                    let rowMatrix = game.compareWithTodayWord(formedWord);
-
-                    // Set the matrix
-
-                    let currentMatrix = matrix.slice();
-                    currentMatrix[currentRow] = rowMatrix;
-
-                    setMatrix(currentMatrix);
-
-                    // Switch the user into the next row and first column
-
-                    setCurrentRow(currentRow + 1);
-                    setCurrentColumn(0);
-
-                } else {
-
-                    // Show an error if the user is not part of the list
-
-                    toast.error("Not in word list");
-
-                }
-
-            } else {
-
-                // Otherwise, show an error
-
-                toast.error("Not enough letters!" + currentColumn);
-
-            }
-
-        } else if (keyCode.includes("Backspace")) {
-
-            // If the user presses backspace and they are not on the first column
-
-            if (currentColumn > 0) {
+            if (keyCode.includes("Key") && currentColumn < 5) {
 
                 // Clone the array
 
                 let newRows = board.slice();
 
-                // Set the string value to empty
+                // Fill the alphabet in its position
 
-                newRows[currentRow][currentColumn - 1] = "";
+                newRows[currentRow][currentColumn] = keyPressed.toUpperCase();
 
-                // Update the variables
+                // Set the variables
 
                 setBoard(newRows);
-                setCurrentColumn(currentColumn - 1);
+                setCurrentColumn(currentColumn + 1);
+
+            } else if (keyCode.includes("Enter")) {
+
+                // If the user is on the last column
+
+                if (currentColumn === 5) {
+
+                    // Form the whole word from the column values
+
+                    let formedWord = board[currentRow][0] + board[currentRow][1] + board[currentRow][2] + board[currentRow][3] + board[currentRow][4];
+
+                    // Check if the word is part of the list
+
+                    let result = search.isWordValid(formedWord);
+
+                    // If the word is valid
+
+                    if (result) {
+
+                        // TODO:
+                        // If it is the correct guess, end the game
+
+                        let rowMatrix = game.compareWithTodayWord(formedWord);
+
+                        // Set the matrix
+
+                        let currentMatrix = matrix.slice();
+                        currentMatrix[currentRow] = rowMatrix;
+
+                        setMatrix(currentMatrix);
+
+                        // Switch the user into the next row and first column
+
+                        setCurrentRow(currentRow + 1);
+                        setCurrentColumn(0);
+
+                    } else {
+
+                        // Show an error if the user is not part of the list
+
+                        toast.error("Not in word list");
+
+                    }
+
+                } else {
+
+                    // Otherwise, show an error
+
+                    toast.error("Not enough letters!");
+
+                }
+
+            } else if (keyCode.includes("Backspace")) {
+
+                // If the user presses backspace and they are not on the first column
+
+                if (currentColumn > 0) {
+
+                    // Clone the array
+
+                    let newRows = board.slice();
+
+                    // Set the string value to empty
+
+                    newRows[currentRow][currentColumn - 1] = "";
+
+                    // Update the variables
+
+                    setBoard(newRows);
+                    setCurrentColumn(currentColumn - 1);
+
+                }
 
             }
 
