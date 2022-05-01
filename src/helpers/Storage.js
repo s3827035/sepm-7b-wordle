@@ -1,7 +1,7 @@
 export default class Storage {
 
     set(key, value) {
-        localStorage.setItem(key, value);
+        return localStorage.setItem(key, value);
     }
 
     get(key) {

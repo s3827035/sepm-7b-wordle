@@ -1,23 +1,30 @@
+import Storage from "./Storage";
+
 export default class Game {
 
     constructor(search) {
         this.search = search;
+        this.storage = new Storage();
     }
 
     getRandomWord() {
         return this.search.randomWord();
     }
 
-    setTodayWord() {
-        Storage.set("wordle", this.getRandomWord());
+    setTodayWord(word) {
+        this.storage.set("wordle", word);
     }
 
     getTodayWord() {
-        Storage.get("wordle");
+        this.storage.get("wordle");
     }
 
     getStoredDate() {
-        Storage.get("current");
+        return this.storage.get("current");
+    }
+
+    setStoredDate(date) {
+        this.storage.set("current", date);
     }
 
     getToday() {
@@ -36,10 +43,12 @@ export default class Game {
         let today = this.getToday();
         let storedDate = this.getStoredDate();
 
-        if (storedDate === null || storedDate !== today) {
+        if (storedDate === undefined || storedDate !== today) {
 
-            Storage.set("wordle", this.getRandomWord());
-            Storage.set("current", today);
+            const word = this.getRandomWord();
+
+            this.setTodayWord(word);
+            this.setStoredDate(today);
 
         }
 

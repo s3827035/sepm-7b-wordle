@@ -14,13 +14,15 @@ import Game from "./helpers/Game";
 const search = new Search();
 const game = new Game(search);
 
-// Load the word list in the memory, ignore the promise
+// Load the word list in the memory
 
-search.loadWordList().then();
+search.loadWordList().then(r => {
 
-// Generate a Wordle if required
+    // Generate a Wordle if required
 
-game.generateWordleForTodayIfRequired();
+    game.generateWordleForTodayIfRequired();
+
+});
 
 function App() {
 
