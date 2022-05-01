@@ -16,7 +16,7 @@ export default class Game {
     }
 
     getTodayWord() {
-        this.storage.get("wordle");
+        return this.storage.get("wordle");
     }
 
     getStoredDate() {
@@ -51,6 +51,54 @@ export default class Game {
             this.setStoredDate(today);
 
         }
+
+    }
+
+    compareWithTodayWord(word) {
+
+        let output = [];
+        let wordArray = word.toLowerCase().split('');
+        let todayWord = this.getTodayWord().split('');
+
+        // GREEN: PERFECT MATCH
+        // YELLOW: EXISTS BUT IN WRONG POSITION
+        // GRAY: NOT CORRECT AT ALL
+
+        for (let i = 0; i < wordArray.length; i++) {
+
+            let myLetter = wordArray[i];
+            let wordLetter = todayWord[i];
+
+            if (myLetter === wordLetter) {
+
+                output[i] = "MATCH";
+
+            } else {
+
+                let foundAtOtherPlace = false;
+
+                for (let j = 0; j < todayWord.length; j++) {
+
+                    let thisLetter = wordLetter[j];
+
+                    if (thisLetter === foundAtOtherPlace) {
+                        foundAtOtherPlace = true;
+                        break;
+                    }
+
+                }
+
+                if (foundAtOtherPlace) {
+                    output[i] = "PARTIAL";
+                } else {
+                    output[i] = "INCORRECT";
+                }
+
+            }
+
+        }
+
+        return output;
 
     }
 

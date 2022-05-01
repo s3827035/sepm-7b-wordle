@@ -31,3 +31,21 @@
     justify-content: center;
     align-items: center;
 }
+
+.vl-match {
+    background: #6aaa64;
+    border: 2px solid #6aaa64 !important;
+    color: white;
+}
+
+.vl-partial {
+    background: #c9b458;
+    border: 2px solid #c9b458 !important;
+    color: white;
+}
+
+.vl-incorrect {
+    background: #86888a;
+    border: 2px solid #86888a !important;
+    color: white;
+}

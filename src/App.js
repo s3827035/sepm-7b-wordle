@@ -42,6 +42,17 @@ function App() {
         ["", "", "", "", ""]
     ]);
 
+    // Game matrix
+
+    const [matrix, setMatrix] = useState([
+        ["", "", "", "", ""],
+        ["", "", "", "", ""],
+        ["", "", "", "", ""],
+        ["", "", "", "", ""],
+        ["", "", "", "", ""],
+        ["", "", "", "", ""]
+    ]);
+
     // Number of rows (~6)
 
     const numberOfRows = 6;
@@ -93,7 +104,14 @@ function App() {
                     // TODO:
                     // If it is the correct guess, end the game
 
+                    let rowMatrix = game.compareWithTodayWord(formedWord);
 
+                    // Set the matrix
+
+                    let currentMatrix = matrix.slice();
+                    currentMatrix[currentRow] = rowMatrix;
+
+                    setMatrix(currentMatrix);
 
                     // Switch the user into the next row and first column
 
@@ -180,7 +198,7 @@ function App() {
                 {/* Loop from 0 to 6 and draw the rows */}
 
                 {new Array(numberOfRows).fill(0).map((_, index) => (
-                    <Row key={index} values={board[index]}/>
+                    <Row key={index} values={board[index]} matrix={matrix[index]}/>
                 ))}
 
             </div>

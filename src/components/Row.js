@@ -10,7 +10,7 @@ function Row(props) {
             {/* Loop from 0 to 5 and draw each tile */}
 
             {new Array(tiles).fill(0).map((_, index) => (
-                <Tile key={index} value={props.values[index]}/>
+                <Tile key={index} value={props.values[index]} outcome={props.matrix[index]}/>
             ))}
 
         </div>
