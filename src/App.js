@@ -7,14 +7,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import toast, {Toaster} from 'react-hot-toast';
 import Search from "./helpers/Search";
+import Game from "./helpers/Game";
 
 // Create the Search object
 
 const search = new Search();
+const game = new Game(search);
 
 // Load the word list in the memory, ignore the promise
 
 search.loadWordList().then();
+
+// Generate a Wordle if required
+
+game.generateWordleForTodayIfRequired();
 
 function App() {
 
