@@ -114,7 +114,12 @@ export default class Game {
         }
     }
 
+    getAttempts() {
+        return this.storage.get("attempts");
+    }
+    
     setAttempts(attempts) {
         this.storage.set("attempts", attempts);
     }
+    
 }

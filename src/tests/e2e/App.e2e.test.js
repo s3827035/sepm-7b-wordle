@@ -60,6 +60,27 @@ describe("Entering word tests", () => {
 
     });
 
+    it("shows game over on entering 6 valid words", async () => {
+
+        await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
+
+        for(let i = 0; i < 6; ++i) {
+            await page.waitForTimeout(200);
+            await page.keyboard.down('KeyG');
+            await page.keyboard.down('KeyA');
+            await page.keyboard.down('KeyM');
+            await page.keyboard.down('KeyE');
+            await page.keyboard.down('KeyR');
+            await page.keyboard.press('Enter');
+        }
+        await page.keyboard.press('Enter');
+        await page.waitForTimeout(500);
+        const text = await page.$eval(".error", (e) => e.textContent);
+
+        expect(text).toContain("Game Over.");
+
+    });
+
     afterAll(() => browser.close());
 
 });

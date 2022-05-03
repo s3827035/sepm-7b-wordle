@@ -122,7 +122,12 @@ function App() {
                         setCurrentRow(currentRow + 1);
                         setCurrentColumn(0);
 
+                        // Check end condition
+
                         game.setAttempts(6 - currentRow - 1);
+                        if(game.getAttempts < 1) {
+                            toast.error("Game Over.");
+                        }
 
                     } else {
 
@@ -160,6 +165,8 @@ function App() {
                     setCurrentColumn(currentColumn - 1);
                 }
             }
+        } else {
+            toast.error("Game Over.");
         }
     };
 
@@ -198,6 +205,7 @@ function App() {
             </Navbar>
             
             <div class="end-condition" align="center">
+                {/* <Navbar.Brand><b>{game.getAttempts()}</b></Navbar.Brand> */}
                 <Navbar.Brand><b>{game.getEndCondition()}</b></Navbar.Brand>
             </div>
 
