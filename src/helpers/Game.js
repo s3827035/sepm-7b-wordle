@@ -5,6 +5,8 @@ export default class Game {
     constructor(search) {
         this.search = search;
         this.storage = new Storage();
+        this.storage.set("attempts", 6);
+        this.storage.set("end", false);
     }
 
     getRandomWord() {
@@ -102,4 +104,17 @@ export default class Game {
 
     }
 
+    getEndCondition() {
+        if (this.storage.get("attempts") > 0) {
+            // return this.storage.get("attempts"); // testing
+            // return this.storage.get("end"); // testing
+        } else {
+            this.storage.set("end", true);
+            return ("Wordle of the day: " + this.getTodayWord()).toString();
+        }
+    }
+
+    setAttempts(attempts) {
+        this.storage.set("attempts", attempts);
+    }
 }
