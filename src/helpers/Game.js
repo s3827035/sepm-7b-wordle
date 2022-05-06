@@ -40,17 +40,23 @@ export default class Game {
 
     }
 
-    generateWordleForTodayIfRequired() {
+    isCurrentDayOver() {
 
         let today = this.getToday();
         let storedDate = this.getStoredDate();
 
-        if (storedDate === undefined || storedDate !== today) {
+        return storedDate === undefined || storedDate !== today;
+
+    }
+
+    generateWordleForTodayIfRequired() {
+
+        if (this.isCurrentDayOver) {
 
             const word = this.getRandomWord();
 
             this.setTodayWord(word);
-            this.setStoredDate(today);
+            this.setStoredDate(this.getToday());
 
         }
 
@@ -101,6 +107,26 @@ export default class Game {
         }
 
         return output;
+
+    }
+
+    saveMatrix() {
+
+        let matrix = [];
+
+        for (let i = 0; i < 6; ++i) {
+
+            let row = [];
+
+            for (let j = 0; j < 5; ++j) {
+                row.push(document.getElementById('tile-' + i + "-" + j).innerHTML);
+            }
+
+            matrix.push(row);
+
+        }
+
+        this.storage.set('matrix', JSON.stringify(matrix));
 
     }
 

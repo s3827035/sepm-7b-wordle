@@ -1,8 +1,8 @@
 import "./static/app.css";
 import Row from "./components/Row";
 
-import React, {useState, useEffect} from "react";
-import {Nav, Navbar, Container} from "react-bootstrap";
+import React, {useEffect, useState} from "react";
+import {Container, Nav, Navbar} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import toast, {Toaster} from 'react-hot-toast';
@@ -56,6 +56,10 @@ function App() {
         ["", "", "", "", ""],
         ["", "", "", "", ""]
     ]);
+
+    // Matrix drawn
+
+    const [isMatrixDrawn, setIsMatrixDrawn] = useState(false);
 
     // Number of rows (~6)
 
@@ -126,6 +130,10 @@ function App() {
                         setCurrentRow(currentRow + 1);
                         setCurrentColumn(0);
 
+                        // Save the matrix
+
+                        game.saveMatrix();
+
                         // Check end condition
 
                         game.setAttempts(6 - currentRow - 1);
@@ -164,6 +172,7 @@ function App() {
 
                     setBoard(newRows);
                     setCurrentColumn(currentColumn - 1);
+
                 }
             }
 
@@ -182,6 +191,85 @@ function App() {
         return () => window.removeEventListener("keydown", keyPressHandler);
 
     }, [board, currentRow, currentColumn]);
+
+    useEffect(() => {
+
+        if (isMatrixDrawn === true) {
+            return true;
+        }
+
+        // Check the state of the game
+
+        if (!game.isCurrentDayOver()) {
+
+            let storedMatrix = game.storage.get("matrix");
+
+            if (storedMatrix !== null && storedMatrix !== "") {
+
+                let matrixArr = JSON.parse(storedMatrix);
+
+                // Clone the array
+
+                let newRows = board.slice();
+                let thisRow = 0;
+                let thisCol = 0;
+
+                for (let [i, j] of Object.entries(matrixArr)) {
+
+                    thisCol = 0;
+
+                    for (let [y, k] of Object.entries(matrixArr[i])) {
+
+                        newRows[thisRow][thisCol] = k.toUpperCase();
+                        thisCol++;
+
+                    }
+
+                    thisRow++;
+
+                }
+
+                setBoard(newRows);
+                setCurrentRow(5);
+                setCurrentColumn(thisCol);
+                setIsMatrixDrawn(true);
+
+            }
+
+        } else {
+
+            game.storage.set("matrix", JSON.stringify([]));
+
+        }
+
+    }, []);
+
+    useEffect(() => {
+
+        let currentMatrix = matrix.slice();
+
+        for (let i = 0; i < 6; ++i) {
+
+            if (board[i][0] === '') {
+
+                currentMatrix[i] = ['', '', '', '', ''];
+
+            } else {
+
+                let formedWord = board[i][0] + board[i][1] + board[i][2] + board[i][3] + board[i][4];
+
+                currentMatrix[i] = game.compareWithTodayWord(formedWord);
+
+            }
+
+        }
+
+        console.log(board);
+        console.log(currentMatrix);
+
+        setMatrix(currentMatrix);
+
+    }, [isMatrixDrawn]);
 
     return (
         <div className="App">
