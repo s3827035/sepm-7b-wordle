@@ -212,6 +212,7 @@ function App() {
 
                 let newRows = board.slice();
                 let thisRow = 0;
+                let lastFilledRow = 0;
                 let thisCol = 0;
 
                 for (let [i, j] of Object.entries(matrixArr)) {
@@ -227,11 +228,15 @@ function App() {
 
                     thisRow++;
 
+                    if (newRows[lastFilledRow][4] !== "") {
+                        lastFilledRow++;
+                    }
+
                 }
 
                 setBoard(newRows);
-                setCurrentRow(5);
-                setCurrentColumn(thisCol);
+                setCurrentRow(lastFilledRow);
+                setCurrentColumn(0);
                 setIsMatrixDrawn(true);
 
             }
