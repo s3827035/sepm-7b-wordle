@@ -105,21 +105,22 @@ export default class Game {
     }
 
     getEndCondition() {
-        if (this.storage.get("attempts") > 0) {
-            // return this.storage.get("attempts"); // testing
-            // return this.storage.get("end"); // testing
-        } else {
+
+        if (this.storage.get("attempts") < 1) {
             this.storage.set("end", true);
-            return ("Wordle of the day: " + this.getTodayWord()).toString();
+            return this.getTodayWord();
         }
+
+        return null;
+
     }
 
     getAttempts() {
         return this.storage.get("attempts");
     }
-    
+
     setAttempts(attempts) {
         this.storage.set("attempts", attempts);
     }
-    
+
 }

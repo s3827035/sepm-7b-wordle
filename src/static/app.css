@@ -27,7 +27,7 @@
 
 .game-rows {
     display: grid;
-    margin-top: 25vh;
+    margin-top: 15vh;
     justify-content: center;
     align-items: center;
 }
@@ -48,4 +48,20 @@
     background: #86888a;
     border: 2px solid #86888a !important;
     color: white;
+}
+
+#word-of-the-day {
+    background: #151515;
+    color: white;
+    padding: 10px 20px 10px 20px;
+    text-align: center;
+    display: inline-flex;
+    text-transform: uppercase;
+    border-radius: 5px;
+    margin-top: 50px;
+    font-weight: bold;
+}
+
+.hidden-word {
+    visibility: hidden;
 }

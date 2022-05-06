@@ -31,6 +31,10 @@ function App() {
     const [currentRow, setCurrentRow] = useState(0);
     const [currentColumn, setCurrentColumn] = useState(0);
 
+    // Final Word
+
+    const finalWord = game.getEndCondition();
+
     // Game board
 
     const [board, setBoard] = useState([
@@ -65,7 +69,7 @@ function App() {
 
         let keyPressed = e.key;
         let keyCode = e.code;
-        
+
         // Do nothing if the game has ended
 
         if (currentRow < 6) {
@@ -125,9 +129,6 @@ function App() {
                         // Check end condition
 
                         game.setAttempts(6 - currentRow - 1);
-                        if(game.getAttempts < 1) {
-                            toast.error("Game Over.");
-                        }
 
                     } else {
 
@@ -165,9 +166,9 @@ function App() {
                     setCurrentColumn(currentColumn - 1);
                 }
             }
-        } else {
-            toast.error("Game Over.");
+
         }
+
     };
 
     useEffect(() => {
@@ -203,10 +204,9 @@ function App() {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-            
-            <div class="end-condition" align="center">
-                {/* <Navbar.Brand><b>{game.getAttempts()}</b></Navbar.Brand> */}
-                <Navbar.Brand><b>{game.getEndCondition()}</b></Navbar.Brand>
+
+            <div className="end-condition" align="center">
+                <div id="word-of-the-day" className={finalWord === null ? 'hidden-word' : ''}>{game.getEndCondition()}</div>
             </div>
 
             <div className="game-rows">

@@ -20,7 +20,7 @@ describe("Entering word tests", () => {
 
     it("shows error on entering an invalid word", async () => {
 
-        await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
+        await page.reload({waitUntil: ["networkidle0", "domcontentloaded"]});
 
         await page.keyboard.down('KeyA');
         await page.keyboard.down('KeyB');
@@ -40,7 +40,7 @@ describe("Entering word tests", () => {
 
     it("does not show any error on entering a valid word", async () => {
 
-        await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
+        await page.reload({waitUntil: ["networkidle0", "domcontentloaded"]});
 
         await page.waitForTimeout(1000);
 
@@ -62,9 +62,9 @@ describe("Entering word tests", () => {
 
     it("shows game over on entering 6 valid words", async () => {
 
-        await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
+        await page.reload({waitUntil: ["networkidle0", "domcontentloaded"]});
 
-        for(let i = 0; i < 6; ++i) {
+        for (let i = 0; i < 6; ++i) {
             await page.waitForTimeout(200);
             await page.keyboard.down('KeyG');
             await page.keyboard.down('KeyA');
@@ -73,11 +73,14 @@ describe("Entering word tests", () => {
             await page.keyboard.down('KeyR');
             await page.keyboard.press('Enter');
         }
+
         await page.keyboard.press('Enter');
         await page.waitForTimeout(500);
-        const text = await page.$eval(".error", (e) => e.textContent);
 
-        expect(text).toContain("Game Over.");
+        const text = await page.$eval(".end-condition", (e) => e.textContent);
+        const wordOfTheDay = await page.evaluate(() => localStorage.getItem("wordle"));
+
+        expect(text).toContain(wordOfTheDay);
 
     });
 
