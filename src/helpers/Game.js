@@ -51,7 +51,7 @@ export default class Game {
 
     generateWordleForTodayIfRequired() {
 
-        if (this.isCurrentDayOver) {
+        if (this.isCurrentDayOver()) {
 
             const word = this.getRandomWord();
 

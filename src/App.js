@@ -269,10 +269,8 @@ function App() {
 
         }
 
-        console.log(board);
-        console.log(currentMatrix);
-
         setMatrix(currentMatrix);
+        game.setAttempts(6 - currentRow - 1);
 
     }, [isMatrixDrawn]);
 
