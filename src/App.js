@@ -65,7 +65,7 @@ function App() {
 
         let keyPressed = e.key;
         let keyCode = e.code;
-
+        
         // Do nothing if the game has ended
 
         if (currentRow < 6) {
@@ -122,6 +122,13 @@ function App() {
                         setCurrentRow(currentRow + 1);
                         setCurrentColumn(0);
 
+                        // Check end condition
+
+                        game.setAttempts(6 - currentRow - 1);
+                        if(game.getAttempts < 1) {
+                            toast.error("Game Over.");
+                        }
+
                     } else {
 
                         // Show an error if the user is not part of the list
@@ -156,13 +163,11 @@ function App() {
 
                     setBoard(newRows);
                     setCurrentColumn(currentColumn - 1);
-
                 }
-
             }
-
+        } else {
+            toast.error("Game Over.");
         }
-
     };
 
     useEffect(() => {
@@ -198,6 +203,11 @@ function App() {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
+            
+            <div class="end-condition" align="center">
+                {/* <Navbar.Brand><b>{game.getAttempts()}</b></Navbar.Brand> */}
+                <Navbar.Brand><b>{game.getEndCondition()}</b></Navbar.Brand>
+            </div>
 
             <div className="game-rows">
 

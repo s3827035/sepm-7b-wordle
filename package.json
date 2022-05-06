@@ -20,7 +20,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --testPathIgnorePatterns=.*e2e.test.js",
     "test:cover": "react-scripts test --coverage src",
-	"test:e2e": "react-scripts test --testPathPattern=.*e2e.test.js$",
+    "test:e2e": "react-scripts test --testPathPattern=.*e2e.test.js$",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
