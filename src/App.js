@@ -214,7 +214,7 @@ function App() {
                 {/* Loop from 0 to 6 and draw the rows */}
 
                 {new Array(numberOfRows).fill(0).map((_, index) => (
-                    <Row key={index} values={board[index]} matrix={matrix[index]}/>
+                    <Row key={index} rowId={index} values={board[index]} matrix={matrix[index]}/>
                 ))}
 
             </div>
