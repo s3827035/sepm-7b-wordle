@@ -112,7 +112,7 @@ describe("Unit Testing: Game Functionality", () => {
 
     });
 
-    test('check if user can share', async () => {
+    test('check if user cannot share', async () => {
 
         localStorage.setItem('matrix', '');
 

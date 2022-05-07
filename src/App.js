@@ -379,7 +379,7 @@ function App() {
                     <Navbar.Collapse className="justify-content-end">
 
                         <Nav>
-                            <Nav.Link onClick={() => setIsStatisticsModalOpen(true)}>Statistics</Nav.Link>
+                            <Nav.Link id="statistics-link" onClick={() => setIsStatisticsModalOpen(true)}>Statistics</Nav.Link>
                             <Nav.Link onClick={() => console.log('To Be Implemented')}>Settings</Nav.Link>
                         </Nav>
 

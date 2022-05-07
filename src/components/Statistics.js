@@ -181,25 +181,27 @@ function Statistics(props) {
             <Modal.Body>
 
                 <div id="statistics">
+
                     <div className="statistic-container">
-                        <div className="statistic">{played}</div>
+                        <div className="statistic" id="played">{played}</div>
                         <div className="label">Played</div>
                     </div>
 
                     <div className="statistic-container">
-                        <div className="statistic">{win}</div>
+                        <div className="statistic" id="win">{win}</div>
                         <div className="label">Win %</div>
                     </div>
 
                     <div className="statistic-container">
-                        <div className="statistic">{currentStreak}</div>
+                        <div className="statistic" id="current-streak">{currentStreak}</div>
                         <div className="label">Current Streak</div>
                     </div>
 
                     <div className="statistic-container">
-                        <div className="statistic">{maxStreak}</div>
+                        <div className="statistic" id="max-streak">{maxStreak}</div>
                         <div className="label">Max Streak</div>
                     </div>
+
                 </div>
 
                 <br/>
@@ -225,8 +227,8 @@ function Statistics(props) {
                     <div className="col-md-6 col-sm-12 justify-content-center align-items-center">
 
                         <DropdownButton id="dropdown-basic-button" title="Share" size="lg">
-                            <Dropdown.Item onClick={() => share('FB')}>Facebook</Dropdown.Item>
-                            <Dropdown.Item onClick={() => share('TW')}>Twitter</Dropdown.Item>
+                            <Dropdown.Item onClick={() => share('FB')} id="fb-share">Facebook</Dropdown.Item>
+                            <Dropdown.Item onClick={() => share('TW')} id="tw-share">Twitter</Dropdown.Item>
                         </DropdownButton>
 
                     </div>
