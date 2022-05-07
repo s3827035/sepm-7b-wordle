@@ -4,6 +4,8 @@ import toast from 'react-hot-toast';
 
 function Statistics(props) {
 
+    // Page Variables
+
     const [played, setPlayed] = useState(0);
     const [win, setWin] = useState(0);
     const [currentStreak, setCurrentStreak] = useState(0);
@@ -11,8 +13,15 @@ function Statistics(props) {
 
     const addDays = (date, n) => {
 
+        // Day in milliseconds
+
         let oneDayInMs = 86400 * 1000;
+
+        // Get date with added time
+
         let newDate = new Date(Date.parse(date) + (n * oneDayInMs));
+
+        // Return in Y-m-d format
 
         return newDate.toISOString().split('T')[0];
 
@@ -20,17 +29,32 @@ function Statistics(props) {
 
     const share = (network) => {
 
+        // Check if the user can share
+
         if (props.game.canIShare()) {
+
+            // Load the game board matrix from storage
 
             let matrix = props.game.getGameMatrix();
             let outcomeStr = '';
 
+            // Loop for each row
+
             for (let i = 0; i < 6; ++i) {
 
+                // Make the word
+
                 let formedWord = matrix[i][0] + matrix[i][1] + matrix[i][2] + matrix[i][3] + matrix[i][4];
+
+                // Get the outcomes
+
                 let outcomeMatrix = props.game.compareWithTodayWord(formedWord);
 
+                // Loop through each column
+
                 for (let j = 0; j < 5; ++j) {
+
+                    // Add appropriate boxes
 
                     if (outcomeMatrix[j] === 'MATCH') {
                         outcomeStr += '🟩';
@@ -42,14 +66,22 @@ function Statistics(props) {
 
                 }
 
+                // Add a line break
+
                 outcomeStr += "\n";
 
             }
 
+            // Copy the results
+
             navigator.clipboard.writeText(outcomeStr)
                 .then(r => {
 
+                    // Show a message
+
                     toast.success("Copied results to clipboard");
+
+                    // Open a new tab based on the social network
 
                     if (network === 'FB') {
                         window.open("https://www.facebook.com/", '_blank');
@@ -63,6 +95,8 @@ function Statistics(props) {
 
         } else {
 
+            // Show an error if the user has not shared
+
             toast.error("Must have played a game to share");
 
         }
@@ -71,21 +105,31 @@ function Statistics(props) {
 
     useEffect(() => {
 
+        // Get history
+
         let streak = props.game.getStreak();
         let currentStreak = 0;
         let maxStreak = 0;
         let wins = 0;
         let lastDate = '0000-00-00';
 
+        // Get the number of games played
+
         setPlayed(streak.length);
 
+        // Loop through history
+
         for (let [i, j] of Object.entries(streak)) {
+
+            // Sum the wins
 
             if (j.won === true) {
                 wins++;
             }
 
         }
+
+        // Calculate win percentage
 
         let winRate = wins / streak.length * 100;
 
@@ -95,17 +139,25 @@ function Statistics(props) {
 
         setWin(winRate);
 
+        // Loop through history
+
         for (let [i, j] of Object.entries(streak)) {
+
+            // Set the first date of the streak
 
             if (lastDate === '0000-00-00') {
                 lastDate = addDays(j['date'], -1);
             }
 
-            if (addDays(lastDate, 1) === j['date']) {
+            // If the user has won on the next day as well, sum up the streak
+
+            if (addDays(lastDate, 1) === j['date'] && j['win'] === true) {
                 currentStreak++;
             } else {
                 currentStreak = 0;
             }
+
+            // Check if the current streak is bigger than max streak
 
             if (currentStreak > maxStreak) {
                 maxStreak = currentStreak;

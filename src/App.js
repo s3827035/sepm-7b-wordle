@@ -139,25 +139,45 @@ function App() {
 
                         game.saveMatrix();
 
-                        // Check end condition
+                        // Set the attempts
 
                         game.setAttempts(6 - currentRow - 1);
 
                         // Did they guess it correctly?
 
                         if (rowMatrix[0] === 'MATCH' && rowMatrix[1] === 'MATCH' && rowMatrix[2] === 'MATCH' && rowMatrix[3] === 'MATCH' && rowMatrix[4] === 'MATCH') {
+
+                            // Set the game state to won
+
                             game.setWonToday();
+
+                            // Reduce attempts to 0
+
                             game.setAttempts(0);
+
+                            // Lock the game by setting the last of row and column
+
                             setCurrentRow(6);
                             setCurrentColumn(5);
+
+                            // Open the statistics automatically
+
                             setIsStatisticsModalOpen(true);
+
                         }
 
                         // Did they lose today's game?
 
                         if (currentRow === 5) {
+
+                            // Set the game as lost
+
                             game.setLossToday();
+
+                            // Open the game
+
                             setIsStatisticsModalOpen(true);
+
                         }
 
                     } else {
@@ -237,11 +257,17 @@ function App() {
                 let lastFilledRow = 0;
                 let thisCol = 0;
 
+                // Loop through stored game board
+
                 for (let [i, j] of Object.entries(matrixArr)) {
 
                     thisCol = 0;
 
+                    // Loop through each column
+
                     for (let [y, k] of Object.entries(matrixArr[i])) {
+
+                        // Set the new row
 
                         newRows[thisRow][thisCol] = k.toUpperCase();
                         thisCol++;
@@ -250,11 +276,15 @@ function App() {
 
                     thisRow++;
 
+                    // if the row is filled completely, record the last filled row
+
                     if (newRows[lastFilledRow][4] !== "") {
                         lastFilledRow++;
                     }
 
                 }
+
+                // Set game state
 
                 setBoard(newRows);
                 setCurrentRow(lastFilledRow);
@@ -273,17 +303,29 @@ function App() {
 
     useEffect(() => {
 
+        // Get the current matrix
+
         let currentMatrix = matrix.slice();
+
+        // Loop through the rows
 
         for (let i = 0; i < 6; ++i) {
 
+            // if the row isn't filled
+
             if (board[i][0] === '') {
+
+                // put empty columns
 
                 currentMatrix[i] = ['', '', '', '', ''];
 
             } else {
 
+                // Set the formed word
+
                 let formedWord = board[i][0] + board[i][1] + board[i][2] + board[i][3] + board[i][4];
+
+                // Set the outcome matrix
 
                 currentMatrix[i] = game.compareWithTodayWord(formedWord);
 
@@ -291,15 +333,33 @@ function App() {
 
         }
 
+        // Set the game matrix
+
         setMatrix(currentMatrix);
 
+        // If the game has ended
+
         if (game.haveIWonToday() || game.haveILostToday()) {
+
+            // Set the attempts to 0
+
             game.setAttempts(0);
+
+            // Set the row to the last column and row to lock the game
+
             setCurrentRow(6);
             setCurrentColumn(5);
+
+            // Open the stats modal
+
             setIsStatisticsModalOpen(true);
+
         } else {
+
+            // Reduce the game attempts
+
             game.setAttempts(6 - currentRow - 1);
+
         }
 
     }, [isMatrixDrawn]);

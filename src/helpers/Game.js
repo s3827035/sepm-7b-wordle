@@ -9,6 +9,8 @@ export default class Game {
         this.storage.set("end", false);
     }
 
+    // Getter and Setters
+
     getRandomWord() {
         return this.search.randomWord();
     }
@@ -31,6 +33,9 @@ export default class Game {
 
     getToday() {
 
+        // Get today's date
+        // Arrange into Y-m-d
+
         let today = new Date();
         let dd = String(today.getDate()).padStart(2, '0');
         let mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -42,8 +47,12 @@ export default class Game {
 
     isCurrentDayOver() {
 
+        // Get today's word and the stored date
+
         let today = this.getToday();
         let storedDate = this.getStoredDate();
+
+        // Check if the stored date is empty or not equal
 
         return storedDate === undefined || storedDate !== today;
 
@@ -51,9 +60,15 @@ export default class Game {
 
     generateWordleForTodayIfRequired() {
 
+        // If today's not over
+
         if (this.isCurrentDayOver()) {
 
+            // Get a new word
+
             const word = this.getRandomWord();
+
+            // Set the new word and new date
 
             this.setTodayWord(word);
             this.setStoredDate(this.getToday());
@@ -64,6 +79,8 @@ export default class Game {
 
     compareWithTodayWord(word) {
 
+        // Split to get the array of submitted word and today's word
+
         let output = [];
         let wordArray = word.toLowerCase().split('');
         let todayWord = this.getTodayWord().split('');
@@ -72,12 +89,20 @@ export default class Game {
         // YELLOW: EXISTS BUT IN WRONG POSITION
         // GRAY: NOT CORRECT AT ALL
 
+        // Loop through the length of the word
+
         for (let i = 0; i < wordArray.length; i++) {
+
+            // Assign the letter
 
             let myLetter = wordArray[i];
             let wordLetter = todayWord[i];
 
+            // If the letters match exactly
+
             if (myLetter === wordLetter) {
+
+                // Set the output to match
 
                 output[i] = "MATCH";
 
@@ -85,9 +110,15 @@ export default class Game {
 
                 let foundAtOtherPlace = false;
 
+                // Loop through each word letter
+
                 for (let j = 0; j < todayWord.length; j++) {
 
+                    // Get the current letter from the loop
+
                     let thisLetter = todayWord[j];
+
+                    // If the word is found at a different spot
 
                     if (thisLetter === myLetter) {
                         foundAtOtherPlace = true;
@@ -96,10 +127,20 @@ export default class Game {
 
                 }
 
+                // If the letter was found at a different place
+
                 if (foundAtOtherPlace) {
+
+                    // Set as partially correct
+
                     output[i] = "PARTIAL";
+
                 } else {
+
+                    // Set as incorrect
+
                     output[i] = "INCORRECT";
+
                 }
 
             }
@@ -114,17 +155,25 @@ export default class Game {
 
         let matrix = [];
 
+        // Loop through row
+
         for (let i = 0; i < 6; ++i) {
 
             let row = [];
+
+            // Loop through each letter
 
             for (let j = 0; j < 5; ++j) {
                 row.push(document.getElementById('tile-' + i + "-" + j).innerHTML);
             }
 
+            // Push into matrix array
+
             matrix.push(row);
 
         }
+
+        // Update the storage
 
         this.storage.set('matrix', JSON.stringify(matrix));
 
@@ -132,14 +181,25 @@ export default class Game {
 
     getEndCondition() {
 
+        // If the number of attempts is 0
+
         if (this.storage.get("attempts") < 1) {
+
             this.storage.set("end", true);
+
+            // Return the word
+
             return this.getTodayWord();
+
         }
+
+        // Otherwise, return NULL
 
         return null;
 
     }
+
+    // Getter and Setter
 
     getAttempts() {
         return this.storage.get("attempts");
@@ -151,12 +211,22 @@ export default class Game {
 
     getGameMatrix() {
 
+        // Load through localStorage
+
         let matrix = this.storage.get('matrix');
 
+        // If the storage is empty or NULL
+
         if (matrix === null || matrix === "") {
+
             matrix = [];
+
         } else {
+
+            // Parse the JSON string
+
             matrix = JSON.parse(matrix);
+
         }
 
         return matrix;
@@ -165,12 +235,20 @@ export default class Game {
 
     getStreak() {
 
+        // Load through localStorage
+
         let streak = this.storage.get('streak');
 
         if (streak === null || streak === "") {
+
             streak = [];
+
         } else {
+
+            // Parse the JSON string
+
             streak = JSON.parse(streak);
+
         }
 
         return streak;
@@ -179,18 +257,30 @@ export default class Game {
 
     setWonToday() {
 
+        // Load through localStorage
+
         let streak = this.storage.get('streak');
 
         if (streak === null || streak === "") {
+
             streak = [];
+
         } else {
+
+            // Parse the JSON string
+
             streak = JSON.parse(streak);
+
         }
+
+        // Push the game outcome into the array
 
         streak.push({
             date: this.getToday(),
             won: true
         });
+
+        // Update storage
 
         this.storage.set('streak', JSON.stringify(streak));
 
@@ -198,18 +288,30 @@ export default class Game {
 
     setLossToday() {
 
+        // Load through localStorage
+
         let streak = this.storage.get('streak');
 
         if (streak === null || streak === "") {
+
             streak = [];
+
         } else {
+
+            // Parse the JSON string
+
             streak = JSON.parse(streak);
+
         }
+
+        // Push the game outcome into the array
 
         streak.push({
             date: this.getToday(),
             won: false
         });
+
+        // Update storage
 
         this.storage.set('streak', JSON.stringify(streak));
 
@@ -217,17 +319,31 @@ export default class Game {
 
     haveIWonToday() {
 
+        // Load through localStorage
+
         let streak = this.storage.get('streak');
 
         if (streak === null || streak === "") {
+
             streak = [];
+
         } else {
+
+            // Parse the JSON string
+
             streak = JSON.parse(streak);
+
         }
+
+        // Get today's date
 
         let today = this.getToday();
 
+        // Loop through history record
+
         for (let [i, j] of Object.entries(streak)) {
+
+            // If the date is equal to today and the game was WON
 
             if (today === j.date && j.won === true) {
                 return true;
@@ -241,17 +357,31 @@ export default class Game {
 
     haveILostToday() {
 
+        // Load through localStorage
+
         let streak = this.storage.get('streak');
 
         if (streak === null || streak === "") {
+
             streak = [];
+
         } else {
+
+            // Parse the JSON string
+
             streak = JSON.parse(streak);
+
         }
+
+        // Get today's date
 
         let today = this.getToday();
 
+        // Loop through history record
+
         for (let [i, j] of Object.entries(streak)) {
+
+            // If the date is equal to today and the game was LOST
 
             if (today === j.date && j.won === false) {
                 return true;
@@ -265,13 +395,13 @@ export default class Game {
 
     canIShare() {
 
+        // Load through localStorage
+
         let matrix = this.storage.get('matrix');
 
-        if (matrix === null || matrix === "" || matrix === '[]') {
-            return false;
-        }
+        // If the variable isn't null, empty or an empty array
 
-        return true;
+        return !(matrix === null || matrix === "" || matrix === '[]');
 
     }
 
