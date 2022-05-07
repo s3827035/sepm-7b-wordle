@@ -20,9 +20,9 @@ describe("Unit Testing: Database and Search", () => {
         expect(search.isWordValid("AEDEY")).toBe(false);
     });
 
-    test('Check if a value is pulled and not null', async () => {
+    test('Check if the word length is equal to 5', async () => {
         const expected = ["1", "2", "3", "4", "5"];
-        expect(expected.length).toBe(search.randomWord().length)
+        expect(search.randomWord().length).toBe(5);
     });
 
 });
