@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import toast, {Toaster} from 'react-hot-toast';
 import Search from "./helpers/Search";
 import Game from "./helpers/Game";
+import Statistics from "./components/Statistics";
 
 // Create the Search object
 
@@ -30,6 +31,10 @@ function App() {
 
     const [currentRow, setCurrentRow] = useState(0);
     const [currentColumn, setCurrentColumn] = useState(0);
+
+    // Statistics modal
+
+    const [isStatisticsModalOpen, setIsStatisticsModalOpen] = useState(false);
 
     // Final Word
 
@@ -278,6 +283,7 @@ function App() {
         <div className="App">
 
             <div className="error"><Toaster/></div>
+            <Statistics open={isStatisticsModalOpen} close={() => setIsStatisticsModalOpen(false)}/>
 
             <Navbar>
                 <Container>
@@ -288,7 +294,7 @@ function App() {
                     <Navbar.Collapse className="justify-content-end">
 
                         <Nav>
-                            <Nav.Link onClick={() => console.log('To Be Implemented')}>Statistics</Nav.Link>
+                            <Nav.Link onClick={() => setIsStatisticsModalOpen(true)}>Statistics</Nav.Link>
                             <Nav.Link onClick={() => console.log('To Be Implemented')}>Settings</Nav.Link>
                         </Nav>
 

@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
 
+html, body {
+    font-family: 'Roboto', sans-serif !important;
+}
+
 .tile {
     display: inline-flex;
     justify-content: center;
@@ -64,4 +68,48 @@
 
 .hidden-word {
     visibility: hidden;
+}
+
+.modal-title {
+    text-align: center;
+}
+
+#statistics {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.statistic-container {
+    flex: 1;
+}
+
+.statistic-container .statistic {
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    letter-spacing: 0.05em;
+    font-variant-numeric: proportional-nums;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+}
+
+.statistic-container .label {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+.h4 {
+    font-family: 'Roboto', sans-serif;
+}
+
+.equal {
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap: wrap;
 }
