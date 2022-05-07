@@ -308,7 +308,7 @@ function App() {
         <div className="App">
 
             <div className="error"><Toaster/></div>
-            <Statistics streak={game.getStreak()} open={isStatisticsModalOpen} close={() => setIsStatisticsModalOpen(false)}/>
+            <Statistics game={game} open={isStatisticsModalOpen} close={() => setIsStatisticsModalOpen(false)}/>
 
             <Navbar>
                 <Container>

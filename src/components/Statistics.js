@@ -1,5 +1,6 @@
 import {Modal, Dropdown, DropdownButton} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
+import toast from 'react-hot-toast';
 
 function Statistics(props) {
 
@@ -17,9 +18,60 @@ function Statistics(props) {
 
     };
 
+    const share = (network) => {
+
+        if (props.game.canIShare()) {
+
+            let matrix = props.game.getGameMatrix();
+            let outcomeStr = '';
+
+            for (let i = 0; i < 6; ++i) {
+
+                let formedWord = matrix[i][0] + matrix[i][1] + matrix[i][2] + matrix[i][3] + matrix[i][4];
+                let outcomeMatrix = props.game.compareWithTodayWord(formedWord);
+
+                for (let j = 0; j < 5; ++j) {
+
+                    if (outcomeMatrix[j] === 'MATCH') {
+                        outcomeStr += '🟩';
+                    } else if (outcomeMatrix[j] === 'PARTIAL') {
+                        outcomeStr += '🟨';
+                    } else if (outcomeMatrix[j] === 'INCORRECT') {
+                        outcomeStr += '⬜';
+                    }
+
+                }
+
+                outcomeStr += "\n";
+
+            }
+
+            navigator.clipboard.writeText(outcomeStr)
+                .then(r => {
+
+                    toast.success("Copied results to clipboard");
+
+                    if (network === 'FB') {
+                        window.open("https://www.facebook.com/", '_blank');
+                    }
+
+                    if (network === 'TW') {
+                        window.open("https://twitter.com/home", '_blank');
+                    }
+
+                });
+
+        } else {
+
+            toast.error("Must have played a game to share");
+
+        }
+
+    };
+
     useEffect(() => {
 
-        let streak = props.streak;
+        let streak = props.game.getStreak();
         let currentStreak = 0;
         let maxStreak = 0;
         let wins = 0;
@@ -35,7 +87,13 @@ function Statistics(props) {
 
         }
 
-        setWin(wins / streak.length * 100);
+        let winRate = wins / streak.length * 100;
+
+        if (isNaN(winRate)) {
+            winRate = 0;
+        }
+
+        setWin(winRate);
 
         for (let [i, j] of Object.entries(streak)) {
 
@@ -58,7 +116,7 @@ function Statistics(props) {
         setCurrentStreak(currentStreak);
         setMaxStreak(maxStreak);
 
-    }, []);
+    }, [props.open]);
 
     return (
 
@@ -115,8 +173,8 @@ function Statistics(props) {
                     <div className="col-md-6 col-sm-12 justify-content-center align-items-center">
 
                         <DropdownButton id="dropdown-basic-button" title="Share" size="lg">
-                            <Dropdown.Item href="#/action-1">Facebook</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">Twitter</Dropdown.Item>
+                            <Dropdown.Item onClick={() => share('FB')}>Facebook</Dropdown.Item>
+                            <Dropdown.Item onClick={() => share('TW')}>Twitter</Dropdown.Item>
                         </DropdownButton>
 
                     </div>

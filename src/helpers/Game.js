@@ -149,6 +149,20 @@ export default class Game {
         this.storage.set("attempts", attempts);
     }
 
+    getGameMatrix() {
+
+        let matrix = this.storage.get('matrix');
+
+        if (matrix === null || matrix === "") {
+            matrix = [];
+        } else {
+            matrix = JSON.parse(matrix);
+        }
+
+        return matrix;
+
+    }
+
     getStreak() {
 
         let streak = this.storage.get('streak');
@@ -246,6 +260,18 @@ export default class Game {
         }
 
         return false;
+
+    }
+
+    canIShare() {
+
+        let matrix = this.storage.get('matrix');
+
+        if (matrix === null || matrix === "" || matrix === '[]') {
+            return false;
+        }
+
+        return true;
 
     }
 
