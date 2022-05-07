@@ -143,6 +143,23 @@ function App() {
 
                         game.setAttempts(6 - currentRow - 1);
 
+                        // Did they guess it correctly?
+
+                        if (rowMatrix[0] === 'MATCH' && rowMatrix[1] === 'MATCH' && rowMatrix[2] === 'MATCH' && rowMatrix[3] === 'MATCH' && rowMatrix[4] === 'MATCH') {
+                            game.setWonToday();
+                            game.setAttempts(0);
+                            setCurrentRow(6);
+                            setCurrentColumn(5);
+                            setIsStatisticsModalOpen(true);
+                        }
+
+                        // Did they lose today's game?
+
+                        if (currentRow === 5) {
+                            game.setLossToday();
+                            setIsStatisticsModalOpen(true);
+                        }
+
                     } else {
 
                         // Show an error if the user is not part of the list
@@ -275,7 +292,15 @@ function App() {
         }
 
         setMatrix(currentMatrix);
-        game.setAttempts(6 - currentRow - 1);
+
+        if (game.haveIWonToday() || game.haveILostToday()) {
+            game.setAttempts(0);
+            setCurrentRow(6);
+            setCurrentColumn(5);
+            setIsStatisticsModalOpen(true);
+        } else {
+            game.setAttempts(6 - currentRow - 1);
+        }
 
     }, [isMatrixDrawn]);
 
@@ -283,7 +308,7 @@ function App() {
         <div className="App">
 
             <div className="error"><Toaster/></div>
-            <Statistics open={isStatisticsModalOpen} close={() => setIsStatisticsModalOpen(false)}/>
+            <Statistics streak={game.getStreak()} open={isStatisticsModalOpen} close={() => setIsStatisticsModalOpen(false)}/>
 
             <Navbar>
                 <Container>

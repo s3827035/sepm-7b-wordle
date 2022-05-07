@@ -88,9 +88,6 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    letter-spacing: 0.05em;
-    font-variant-numeric: proportional-nums;
     font-weight: bold;
     font-family: 'Roboto', sans-serif;
 }
@@ -98,7 +95,6 @@ html, body {
 .statistic-container .label {
     font-size: 14px;
     display: flex;
-    align-items: center;
     justify-content: center;
     text-align: center;
     font-family: 'Roboto', sans-serif;

@@ -1,6 +1,64 @@
 import {Modal, Dropdown, DropdownButton} from "react-bootstrap";
+import React, {useEffect, useState} from "react";
 
 function Statistics(props) {
+
+    const [played, setPlayed] = useState(0);
+    const [win, setWin] = useState(0);
+    const [currentStreak, setCurrentStreak] = useState(0);
+    const [maxStreak, setMaxStreak] = useState(0);
+
+    const addDays = (date, n) => {
+
+        let oneDayInMs = 86400 * 1000;
+        let newDate = new Date(Date.parse(date) + (n * oneDayInMs));
+
+        return newDate.toISOString().split('T')[0];
+
+    };
+
+    useEffect(() => {
+
+        let streak = props.streak;
+        let currentStreak = 0;
+        let maxStreak = 0;
+        let wins = 0;
+        let lastDate = '0000-00-00';
+
+        setPlayed(streak.length);
+
+        for (let [i, j] of Object.entries(streak)) {
+
+            if (j.won === true) {
+                wins++;
+            }
+
+        }
+
+        setWin(wins / streak.length * 100);
+
+        for (let [i, j] of Object.entries(streak)) {
+
+            if (lastDate === '0000-00-00') {
+                lastDate = addDays(j['date'], -1);
+            }
+
+            if (addDays(lastDate, 1) === j['date']) {
+                currentStreak++;
+            } else {
+                currentStreak = 0;
+            }
+
+            if (currentStreak > maxStreak) {
+                maxStreak = currentStreak;
+            }
+
+        }
+
+        setCurrentStreak(currentStreak);
+        setMaxStreak(maxStreak);
+
+    }, []);
 
     return (
 
@@ -14,22 +72,22 @@ function Statistics(props) {
 
                 <div id="statistics">
                     <div className="statistic-container">
-                        <div className="statistic">4</div>
+                        <div className="statistic">{played}</div>
                         <div className="label">Played</div>
                     </div>
 
                     <div className="statistic-container">
-                        <div className="statistic">0</div>
+                        <div className="statistic">{win}</div>
                         <div className="label">Win %</div>
                     </div>
 
                     <div className="statistic-container">
-                        <div className="statistic">0</div>
+                        <div className="statistic">{currentStreak}</div>
                         <div className="label">Current Streak</div>
                     </div>
 
                     <div className="statistic-container">
-                        <div className="statistic">0</div>
+                        <div className="statistic">{maxStreak}</div>
                         <div className="label">Max Streak</div>
                     </div>
                 </div>

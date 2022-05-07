@@ -149,4 +149,104 @@ export default class Game {
         this.storage.set("attempts", attempts);
     }
 
+    getStreak() {
+
+        let streak = this.storage.get('streak');
+
+        if (streak === null || streak === "") {
+            streak = [];
+        } else {
+            streak = JSON.parse(streak);
+        }
+
+        return streak;
+
+    }
+
+    setWonToday() {
+
+        let streak = this.storage.get('streak');
+
+        if (streak === null || streak === "") {
+            streak = [];
+        } else {
+            streak = JSON.parse(streak);
+        }
+
+        streak.push({
+            date: this.getToday(),
+            won: true
+        });
+
+        this.storage.set('streak', JSON.stringify(streak));
+
+    }
+
+    setLossToday() {
+
+        let streak = this.storage.get('streak');
+
+        if (streak === null || streak === "") {
+            streak = [];
+        } else {
+            streak = JSON.parse(streak);
+        }
+
+        streak.push({
+            date: this.getToday(),
+            won: false
+        });
+
+        this.storage.set('streak', JSON.stringify(streak));
+
+    }
+
+    haveIWonToday() {
+
+        let streak = this.storage.get('streak');
+
+        if (streak === null || streak === "") {
+            streak = [];
+        } else {
+            streak = JSON.parse(streak);
+        }
+
+        let today = this.getToday();
+
+        for (let [i, j] of Object.entries(streak)) {
+
+            if (today === j.date && j.won === true) {
+                return true;
+            }
+
+        }
+
+        return false;
+
+    }
+
+    haveILostToday() {
+
+        let streak = this.storage.get('streak');
+
+        if (streak === null || streak === "") {
+            streak = [];
+        } else {
+            streak = JSON.parse(streak);
+        }
+
+        let today = this.getToday();
+
+        for (let [i, j] of Object.entries(streak)) {
+
+            if (today === j.date && j.won === false) {
+                return true;
+            }
+
+        }
+
+        return false;
+
+    }
+
 }
