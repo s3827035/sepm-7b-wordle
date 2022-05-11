@@ -6,10 +6,17 @@ function Statistics(props) {
 
     // Page Variables
 
+    const nextMidnight = new Date();
+    nextMidnight.setHours(24, 0, 0, 0);
+
     const [played, setPlayed] = useState(0);
     const [win, setWin] = useState(0);
     const [currentStreak, setCurrentStreak] = useState(0);
     const [maxStreak, setMaxStreak] = useState(0);
+
+    const [hoursRemaining, setHoursRemaining] = useState("00");
+    const [minutesRemaining, setMinutesRemaining] = useState("00");
+    const [secondsRemaining, setSecondsRemaining] = useState("00");
 
     const addDays = (date, n) => {
 
@@ -168,7 +175,47 @@ function Statistics(props) {
         setCurrentStreak(currentStreak);
         setMaxStreak(maxStreak);
 
+        // Calculate time remaining
+
+        setInterval(() => {
+
+            let timeRemaining = parseTime(getRemainingTime());
+
+            setHoursRemaining(timeRemaining[0]);
+            setMinutesRemaining(timeRemaining[1]);
+            setSecondsRemaining(timeRemaining[2]);
+
+        }, 1000);
+
     }, [props.open]);
+
+    const getRemainingTime = () => {
+
+        let now = new Date();
+
+        let time = (nextMidnight.getTime() - now.getTime()) / 1000;
+
+        if (time < 0) {
+            nextMidnight = new Date();
+            nextMidnight.setHours(24, 0, 0, 0);
+            return getRemainingTime();
+        }
+
+        return time;
+
+    };
+
+    const parseTime = (time) => {
+
+        const hours = Math.floor(time / 3600);
+        let rest = time - (hours * 3600);
+        const minutes = Math.floor(rest / 60);
+        rest = rest - (minutes * 60);
+        const seconds = Math.floor(rest);
+
+        return [hours, minutes, seconds];
+
+    };
 
     return (
 
@@ -220,7 +267,9 @@ function Statistics(props) {
 
                         <h4 className="h4"><b>Next Wordle</b></h4>
 
-                        TIMER HERE
+                        <span className="time-remaining">
+                            {hoursRemaining}:{minutesRemaining}:{secondsRemaining}
+                        </span>
 
                     </div>
 
