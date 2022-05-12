@@ -179,7 +179,11 @@ function Statistics(props) {
 
         setInterval(() => {
 
-            let timeRemaining = parseTime(getRemainingTime());
+            // Get time remaining
+
+            let timeRemaining = props.game.parseTime(props.game.getRemainingTime(nextMidnight));
+
+            // Set the state variables every one second
 
             setHoursRemaining(timeRemaining[0]);
             setMinutesRemaining(timeRemaining[1]);
@@ -188,34 +192,6 @@ function Statistics(props) {
         }, 1000);
 
     }, [props.open]);
-
-    const getRemainingTime = () => {
-
-        let now = new Date();
-
-        let time = (nextMidnight.getTime() - now.getTime()) / 1000;
-
-        if (time < 0) {
-            nextMidnight = new Date();
-            nextMidnight.setHours(24, 0, 0, 0);
-            return getRemainingTime();
-        }
-
-        return time;
-
-    };
-
-    const parseTime = (time) => {
-
-        const hours = Math.floor(time / 3600);
-        let rest = time - (hours * 3600);
-        const minutes = Math.floor(rest / 60);
-        rest = rest - (minutes * 60);
-        const seconds = Math.floor(rest);
-
-        return [hours, minutes, seconds];
-
-    };
 
     return (
 
@@ -267,7 +243,7 @@ function Statistics(props) {
 
                         <h4 className="h4"><b>Next Wordle</b></h4>
 
-                        <span className="time-remaining">
+                        <span className="time-remaining" id="time-remaining">
                             {hoursRemaining}:{minutesRemaining}:{secondsRemaining}
                         </span>
 

@@ -405,4 +405,56 @@ export default class Game {
 
     }
 
+    getRemainingTime = (nextMidnight) => {
+
+        // Get current date
+
+        let now = new Date();
+
+        // Get the current time in seconds
+
+        let time = (nextMidnight.getTime() - now.getTime()) / 1000;
+
+        // If the time is negative, that means, it's past midnight
+
+        if (time < 0) {
+
+            // Get current date
+
+            nextMidnight = new Date();
+
+            // Get the next midnight
+
+            nextMidnight.setHours(24, 0, 0, 0);
+
+            // Recalculate
+
+            return this.getRemainingTime(nextMidnight);
+
+        }
+
+        return time;
+
+    };
+
+    parseTime = (time) => {
+
+        // Calculate hours
+
+        const hours = Math.floor(time / 3600);
+        let rest = time - (hours * 3600);
+
+        // Calculate minutes
+
+        const minutes = Math.floor(rest / 60);
+        rest = rest - (minutes * 60);
+
+        // Calculate seconds
+
+        const seconds = Math.floor(rest);
+
+        return [hours, minutes, seconds];
+
+    };
+
 }

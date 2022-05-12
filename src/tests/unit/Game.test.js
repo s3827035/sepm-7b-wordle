@@ -4,34 +4,6 @@ const game = new Game();
 
 describe("Unit Testing: Game Functionality", () => {
 
-    test('Check for current date', async () => {
-
-        let today = new Date();
-        let dd = String(today.getDate()).padStart(2, '0');
-        let mm = String(today.getMonth() + 1).padStart(2, '0');
-        let yyyy = today.getFullYear();
-
-        let currentDate = yyyy + "-" + mm + "-" + dd;
-
-        expect(currentDate).toBe(game.getToday());
-
-    });
-
-    test('Check for current day over', async () => {
-
-        let dateVal = "2022-05-06";
-        let storedVal = game.setStoredDate(dateVal);
-
-        let today = game.getToday();
-
-        let isDayOver = game.isCurrentDayOver();
-
-        if (storedVal !== today) {
-            expect(isDayOver).toBe(true);
-        }
-
-    });
-
     test('compare with word of the day - MATCH', async () => {
 
         let x = game.setTodayWord("hello");
@@ -125,6 +97,58 @@ describe("Unit Testing: Game Functionality", () => {
         localStorage.setItem('matrix', '[["S","A","U","L","T"],["","","","",""],["","","","",""],["","","","",""],["","","","",""],["","","","",""]]');
 
         expect(game.canIShare()).toBe(true);
+
+    });
+
+});
+
+describe("Unit Testing: Time Functions", () => {
+
+    const nextMidnight = new Date();
+    nextMidnight.setHours(24, 0, 0, 0);
+
+    test('Check for current date', async () => {
+
+        let today = new Date();
+        let dd = String(today.getDate()).padStart(2, '0');
+        let mm = String(today.getMonth() + 1).padStart(2, '0');
+        let yyyy = today.getFullYear();
+
+        let currentDate = yyyy + "-" + mm + "-" + dd;
+
+        expect(currentDate).toBe(game.getToday());
+
+    });
+
+    test('Check for current day over', async () => {
+
+        let dateVal = "2022-05-06";
+        let storedVal = game.setStoredDate(dateVal);
+
+        let today = game.getToday();
+
+        let isDayOver = game.isCurrentDayOver();
+
+        if (storedVal !== today) {
+            expect(isDayOver).toBe(true);
+        }
+
+    });
+
+    test('Get time until midnight', async () => {
+
+        let timeUntil = game.getRemainingTime(nextMidnight);
+
+        expect(timeUntil > 0).toBeTruthy();
+
+    });
+
+    test('Parse time', async () => {
+
+        let timeUntil = game.getRemainingTime(nextMidnight);
+        let parsed = game.parseTime(timeUntil);
+
+        expect(parsed.length).toEqual(3);
 
     });
 

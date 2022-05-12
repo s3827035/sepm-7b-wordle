@@ -7,6 +7,8 @@ describe("Entering word tests", () => {
 
     beforeAll(async () => {
 
+        jest.setTimeout(60000);
+
         browser = await puppeteer.launch({
             dumpio: true,
             headless: false
@@ -176,6 +178,23 @@ describe("Entering word tests", () => {
     });
 
     describe("Testing for Statistics modal", () => {
+
+        it("check that timer updates every seconds", async () => {
+
+            await page.evaluate(() => localStorage.clear());
+            await page.reload({waitUntil: ["networkidle0", "domcontentloaded"]});
+
+            await page.click("a[id='statistics-link']");
+
+            const beforeVal = await page.$eval('#time-remaining', element => element.innerHTML);
+
+            await page.waitForTimeout(1000);
+
+            const afterVal = await page.$eval('#time-remaining', element => element.innerHTML);
+
+            expect(beforeVal === afterVal).toEqual(false);
+
+        });
 
         it("check that the game shows 0 for all statistics played", async () => {
 
