@@ -492,15 +492,24 @@ export default class Game {
 
         } else {
 
+            // Parse as JSON
+
             let guessDistributionsAr = JSON.parse(guessDistributions);
             let arr = [];
+
             let totalValue = 0;
             let topId = -1;
             let topValue = 1;
 
+            // Loop through item
+
             for (let i = 0; i < guessDistributionsAr.length; i++) {
 
+                // Calculate total games played
+
                 totalValue += guessDistributionsAr[i]['value'];
+
+                // Check if this row has more correct guesses
 
                 if (guessDistributionsAr[i]['value'] >= topValue) {
                     topId = i;
@@ -509,7 +518,11 @@ export default class Game {
 
             }
 
+            // Loop through each row
+
             for (let i = 0; i < guessDistributionsAr.length; i++) {
+
+                // Populate the array with percentage and value
 
                 arr.push({
                     value: guessDistributionsAr[i]['value'],
