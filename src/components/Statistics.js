@@ -18,6 +18,33 @@ function Statistics(props) {
     const [minutesRemaining, setMinutesRemaining] = useState("00");
     const [secondsRemaining, setSecondsRemaining] = useState("00");
 
+    const [guessDistributions, setGuessDistributions] = useState([
+        {
+            percentage: 0,
+            value: 0
+        },
+        {
+            percentage: 0,
+            value: 0
+        },
+        {
+            percentage: 0,
+            value: 0
+        },
+        {
+            percentage: 0,
+            value: 0
+        },
+        {
+            percentage: 0,
+            value: 0
+        },
+        {
+            percentage: 0,
+            value: 0
+        }
+    ]);
+
     const addDays = (date, n) => {
 
         // Day in milliseconds
@@ -158,7 +185,7 @@ function Statistics(props) {
 
             // If the user has won on the next day as well, sum up the streak
 
-            if (addDays(lastDate, 1) === j['date'] && j['win'] === true) {
+            if (addDays(lastDate, 1) === j['date'] && j['won'] === true) {
                 currentStreak++;
             } else {
                 currentStreak = 0;
@@ -192,6 +219,10 @@ function Statistics(props) {
         }, 1000);
 
     }, [props.open]);
+
+    useEffect(() => {
+        setGuessDistributions(props.game.getGuessDistribution());
+    }, []);
 
     return (
 
@@ -231,7 +262,14 @@ function Statistics(props) {
 
                 <h4 className="h4"><b>Guess Distribution</b></h4>
 
-                To be done.
+                {guessDistributions.map((item, index) => (
+
+                    <div className="guess-distribution" key={index}>
+                        <span>{index + 1}</span>
+                        <div style={{width: item['percentage'] + "%"}} className={item['top'] === true ? "top-bar" : ''}>{item['value']}</div>
+                    </div>
+
+                ))}
 
                 <br/>
                 <br/>

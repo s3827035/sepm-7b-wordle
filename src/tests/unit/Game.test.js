@@ -66,7 +66,7 @@ describe("Unit Testing: Game Functionality", () => {
 
         localStorage.setItem('streak', '');
 
-        game.setWonToday();
+        game.setWonToday(5);
 
         expect(game.haveIWonToday()).toBe(true);
         expect(game.haveILostToday()).toBe(false);

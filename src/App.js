@@ -149,7 +149,7 @@ function App() {
 
                             // Set the game state to won
 
-                            game.setWonToday();
+                            game.setWonToday(currentRow);
 
                             // Reduce attempts to 0
 

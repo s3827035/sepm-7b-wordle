@@ -113,3 +113,24 @@ html, body {
 .time-remaining {
     font-size: 160%;
 }
+
+.guess-distribution {
+    display: inline-flex;
+    width: 90%;
+    margin-bottom: 5px;
+}
+
+.guess-distribution span {
+    padding: 10px;
+}
+
+.guess-distribution div {
+    background: #86888a;
+    color: white;
+    padding: 10px;
+    min-width: 7%;
+}
+
+.top-bar {
+    background: #6aaa64 !important;
+}

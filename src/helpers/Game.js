@@ -255,11 +255,13 @@ export default class Game {
 
     }
 
-    setWonToday() {
+    setWonToday(attempt) {
 
         // Load through localStorage
 
         let streak = this.storage.get('streak');
+        let guessDistributions = this.storage.get('guesses');
+        let guessDistributionsArr = [];
 
         if (streak === null || streak === "") {
 
@@ -273,6 +275,39 @@ export default class Game {
 
         }
 
+        // If the local storage is empty
+
+        if (guessDistributions === null || typeof guessDistributions === 'undefined' || guessDistributions === '') {
+
+            // Set an empty array
+
+            guessDistributionsArr = [
+                {
+                    value: 0
+                },
+                {
+                    value: 0
+                },
+                {
+                    value: 0
+                },
+                {
+                    value: 0
+                },
+                {
+                    value: 0
+                },
+                {
+                    value: 0
+                }
+            ];
+
+        } else {
+
+            guessDistributionsArr = JSON.parse(guessDistributions);
+
+        }
+
         // Push the game outcome into the array
 
         streak.push({
@@ -280,9 +315,16 @@ export default class Game {
             won: true
         });
 
+        // Update the guess distribution
+
+        guessDistributionsArr[attempt] = {
+            value: guessDistributionsArr[attempt]['value'] + 1
+        };
+
         // Update storage
 
         this.storage.set('streak', JSON.stringify(streak));
+        this.storage.set('guesses', JSON.stringify(guessDistributionsArr));
 
     }
 
@@ -402,6 +444,84 @@ export default class Game {
         // If the variable isn't null, empty or an empty array
 
         return !(matrix === null || matrix === "" || matrix === '[]');
+
+    }
+
+    getGuessDistribution() {
+
+        // Load through localStorage
+
+        let guessDistributions = this.storage.get('guesses');
+
+        // If the variable isn't null, empty or an empty array
+
+        if (guessDistributions === "" || guessDistributions === null || typeof guessDistributions === 'undefined') {
+
+            return [
+                {
+                    percentage: 0,
+                    value: 0,
+                    top: false
+                },
+                {
+                    percentage: 0,
+                    value: 0,
+                    top: false
+                },
+                {
+                    percentage: 0,
+                    value: 0,
+                    top: false
+                },
+                {
+                    percentage: 0,
+                    value: 0,
+                    top: false
+                },
+                {
+                    percentage: 0,
+                    value: 0,
+                    top: false
+                },
+                {
+                    percentage: 0,
+                    value: 0,
+                    top: false
+                }
+            ];
+
+        } else {
+
+            let guessDistributionsAr = JSON.parse(guessDistributions);
+            let arr = [];
+            let totalValue = 0;
+            let topId = -1;
+            let topValue = 1;
+
+            for (let i = 0; i < guessDistributionsAr.length; i++) {
+
+                totalValue += guessDistributionsAr[i]['value'];
+
+                if (guessDistributionsAr[i]['value'] >= topValue) {
+                    topId = i;
+                    topValue = guessDistributionsAr[i]['value'];
+                }
+
+            }
+
+            for (let i = 0; i < guessDistributionsAr.length; i++) {
+
+                arr.push({
+                    value: guessDistributionsAr[i]['value'],
+                    percentage: parseInt(guessDistributionsAr[i]['value'] / totalValue * 100),
+                    top: (topId === i)
+                });
+
+            }
+
+            return arr;
+
+        }
 
     }
 
