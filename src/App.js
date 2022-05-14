@@ -1,7 +1,8 @@
 import "./static/app.css";
 import Row from "./components/Row";
+import Keyboard from "./components/Keyboard";
 
-import React, {useEffect, useState} from "react";
+import React, {useEffect, createContext, useState} from "react";
 import {Container, Nav, Navbar} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -10,6 +11,7 @@ import Search from "./helpers/Search";
 import Game from "./helpers/Game";
 import Statistics from "./components/Statistics";
 
+export const AppContext = createContext();
 // Create the Search object
 
 const search = new Search();
@@ -30,7 +32,7 @@ function App() {
     // Variables that point to the user row and column position
 
     const [currentRow, setCurrentRow] = useState(0);
-    const [currentColumn, setCurrentColumn] = useState(0);
+    const [currentColumn, setCurrentColumn] = useState({ attempt: 0, letterPos: 0 });
 
     // Statistics modal
 
@@ -400,7 +402,12 @@ function App() {
                 ))}
 
             </div>
+                    <AppContext.Provider value ={{board, setBoard, currentColumn, setCurrentColumn}}>
+            <div className= "game-keyboard">
 
+                <Keyboard></Keyboard>
+            </div>
+                </AppContext.Provider>
         </div>
     );
 
