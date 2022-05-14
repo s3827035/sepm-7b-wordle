@@ -131,7 +131,7 @@ function Statistics(props) {
 
             // Show an error if the user has not shared
 
-            toast.error("Must have played a game to share");
+            toast.error("Must have played a game today to share");
 
         }
 

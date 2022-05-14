@@ -153,3 +153,54 @@ describe("Unit Testing: Time Functions", () => {
     });
 
 });
+
+describe("Unit Testing: Guess Distributions (Visual)", () => {
+
+    test('Get current graphical stats when no game has been played', async () => {
+
+        localStorage.clear();
+
+        let guessDistributions = game.getGuessDistribution();
+
+        for (let i = 0; i < 6; i++) {
+            expect(guessDistributions[i]['percentage']).toEqual(0);
+        }
+
+    });
+
+    test('Get current graphical stats when a game has been played', async () => {
+
+        localStorage.setItem('guesses', JSON.stringify([
+            {
+                value: 1,
+            },
+            {
+                value: 1,
+            },
+            {
+                value: 1,
+            },
+            {
+                value: 1,
+            },
+            {
+                value: 1,
+            },
+            {
+                value: 1,
+            }
+        ]));
+
+        let guessDistributions = game.getGuessDistribution();
+
+        for (let i = 0; i < 6; i++) {
+
+            // Expect each to have 16% percentage
+
+            expect(guessDistributions[i]['percentage']).toEqual(16);
+
+        }
+
+    });
+
+});
