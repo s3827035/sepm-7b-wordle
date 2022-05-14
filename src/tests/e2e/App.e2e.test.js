@@ -7,8 +7,6 @@ describe("Entering word tests", () => {
 
     beforeAll(async () => {
 
-        jest.setTimeout(60000);
-
         browser = await puppeteer.launch({
             dumpio: true,
             headless: false
@@ -241,6 +239,35 @@ describe("Entering word tests", () => {
 
         });
 
+        it("check if guess distributions are populated", async () => {
+
+            await (await browser.pages())[1].bringToFront();
+            await page.evaluate(() => localStorage.clear());
+            await page.reload({waitUntil: ["networkidle0", "domcontentloaded"]});
+
+            for (let i = 0; i < 6; ++i) {
+                await page.waitForTimeout(200);
+                await page.keyboard.down('KeyG');
+                await page.keyboard.down('KeyA');
+                await page.keyboard.down('KeyM');
+                await page.keyboard.down('KeyE');
+                await page.keyboard.down('KeyR');
+                await page.keyboard.press('Enter');
+            }
+
+            await page.keyboard.press('Enter');
+            await page.waitForTimeout(500);
+
+            await page.click("a[id='statistics-link']");
+
+            const spanTexts = await page.$$eval('.guess-distribution span', elements => elements.map(el => el.innerText));
+
+            for (let i = 0; i < 6; ++i) {
+                expect(spanTexts[i]).toBe((i + 1).toString());
+            }
+
+        });
+
     });
 
     describe("Test sharing features", () => {
@@ -273,7 +300,10 @@ describe("Entering word tests", () => {
 
         it("check if twitter share works", async () => {
 
+            await page.waitForTimeout(500);
             await (await browser.pages())[1].bringToFront();
+            await page.waitForTimeout(500);
+
             await page.evaluate(() => localStorage.clear());
             await page.reload({waitUntil: ["networkidle0", "domcontentloaded"]});
 
@@ -294,9 +324,11 @@ describe("Entering word tests", () => {
             await page.click("button[id='dropdown-basic-button']");
             await page.click("a[id='tw-share']");
 
+            await page.waitForTimeout(500);
+
             expect((await browser.pages()).length).toBe(3);
 
-        });
+        }, 15000);
 
     });
 

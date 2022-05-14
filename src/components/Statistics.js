@@ -171,6 +171,8 @@ function Statistics(props) {
             winRate = 0;
         }
 
+        winRate = parseInt(winRate);
+
         setWin(winRate);
 
         // Loop through history
