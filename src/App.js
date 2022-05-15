@@ -32,7 +32,8 @@ function App() {
     // Variables that point to the user row and column position
 
     const [currentRow, setCurrentRow] = useState(0);
-    const [currentColumn, setCurrentColumn] = useState({ attempt: 0, letterPos: 0 });
+    const [currentColumn, setCurrentColumn] = useState(0);
+    const [currAttempt, setCurrAttempt] = useState({attempt:0, letterPos: 0})
 
     // Statistics modal
 
@@ -392,7 +393,7 @@ function App() {
             <div className="end-condition" align="center">
                 <div id="word-of-the-day" className={finalWord === null ? 'hidden-word' : ''}>{game.getEndCondition()}</div>
             </div>
-
+            <AppContext.Provider value ={{board, setBoard, currAttempt, setCurrAttempt}}>
             <div className="game-rows">
 
                 {/* Loop from 0 to 6 and draw the rows */}
@@ -402,7 +403,7 @@ function App() {
                 ))}
 
             </div>
-                    <AppContext.Provider value ={{board, setBoard, currentColumn, setCurrentColumn}}>
+                    
             <div className= "game-keyboard">
 
                 <Keyboard></Keyboard>
