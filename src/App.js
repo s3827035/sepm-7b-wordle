@@ -33,7 +33,7 @@ function App() {
 
     const [currentRow, setCurrentRow] = useState(0);
     const [currentColumn, setCurrentColumn] = useState(0);
-    const [currAttempt, setCurrAttempt] = useState({attempt:0, letterPos: 0})
+    const [currAttempt, setCurrAttempt] = useState({attempt: 0, letterPos: 0})
 
     // Statistics modal
 
@@ -393,22 +393,25 @@ function App() {
             <div className="end-condition" align="center">
                 <div id="word-of-the-day" className={finalWord === null ? 'hidden-word' : ''}>{game.getEndCondition()}</div>
             </div>
-            <AppContext.Provider value ={{board, setBoard, currAttempt, setCurrAttempt}}>
-            <div className="game-rows">
 
-                {/* Loop from 0 to 6 and draw the rows */}
+            <AppContext.Provider value={{board, setBoard, currAttempt, setCurrAttempt, keyPressHandler}}>
 
-                {new Array(numberOfRows).fill(0).map((_, index) => (
-                    <Row key={index} rowId={index} values={board[index]} matrix={matrix[index]}/>
-                ))}
+                <div className="game-rows">
 
-            </div>
-                    
-            <div className= "game-keyboard">
+                    {/* Loop from 0 to 6 and draw the rows */}
 
-                <Keyboard></Keyboard>
-            </div>
-                </AppContext.Provider>
+                    {new Array(numberOfRows).fill(0).map((_, index) => (
+                        <Row key={index} rowId={index} values={board[index]} matrix={matrix[index]}/>
+                    ))}
+
+                </div>
+
+                <div className="game-keyboard">
+                    <Keyboard/>
+                </div>
+
+            </AppContext.Provider>
+
         </div>
     );
 
