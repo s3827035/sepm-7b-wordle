@@ -10,8 +10,10 @@ import toast, {Toaster} from 'react-hot-toast';
 import Search from "./helpers/Search";
 import Game from "./helpers/Game";
 import Statistics from "./components/Statistics";
+import Settings from "./components/Settings";
 
 export const AppContext = createContext();
+
 // Create the Search object
 
 const search = new Search();
@@ -33,11 +35,17 @@ function App() {
 
     const [currentRow, setCurrentRow] = useState(0);
     const [currentColumn, setCurrentColumn] = useState(0);
-    const [currAttempt, setCurrAttempt] = useState({attempt: 0, letterPos: 0})
+    const [currAttempt, setCurrAttempt] = useState({attempt: 0, letterPos: 0});
 
     // Statistics modal
 
     const [isStatisticsModalOpen, setIsStatisticsModalOpen] = useState(false);
+
+    // Settings modal
+
+    const [darkMode, setDarkMode] = useState(false);
+    const [colourBlindMode, setColourBlindMode] = useState(false);
+    const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
     // Final Word
 
@@ -372,6 +380,7 @@ function App() {
 
             <div className="error"><Toaster/></div>
             <Statistics game={game} open={isStatisticsModalOpen} close={() => setIsStatisticsModalOpen(false)}/>
+            <Settings darkMode={darkMode} colourBlindMode={colourBlindMode} setDarkMode={setDarkMode} setColourBlindMode={setColourBlindMode} open={isSettingsModalOpen} close={() => setIsSettingsModalOpen(false)}/>
 
             <Navbar>
                 <Container>
@@ -383,7 +392,7 @@ function App() {
 
                         <Nav>
                             <Nav.Link id="statistics-link" onClick={() => setIsStatisticsModalOpen(true)}>Statistics</Nav.Link>
-                            <Nav.Link onClick={() => console.log('To Be Implemented')}>Settings</Nav.Link>
+                            <Nav.Link id="settings-link" onClick={() => setIsSettingsModalOpen(true)}>Settings</Nav.Link>
                         </Nav>
 
                     </Navbar.Collapse>
