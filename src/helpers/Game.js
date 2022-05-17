@@ -590,4 +590,27 @@ export default class Game {
 
     };
 
+    isDarkMode = () => {
+
+        let darkTheme = this.storage.get("dark_theme");
+
+        return darkTheme === 'true';
+
+    };
+
+    isAccessibleColourMode = () => {
+
+        let accessibleColourMode = this.storage.get("accessible_colour_mode");
+
+        return accessibleColourMode === 'true';
+
+    };
+
+    setColoursMode = (dark, accessible) => {
+
+        this.storage.set("dark_theme", dark);
+        this.storage.set("accessible_colour_mode", accessible);
+
+    };
+
 }

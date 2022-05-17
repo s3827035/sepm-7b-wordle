@@ -44,7 +44,7 @@ function App() {
     // Settings modal
 
     const [darkMode, setDarkMode] = useState(false);
-    const [colourBlindMode, setColourBlindMode] = useState(false);
+    const [highContrastMode, setHighContrastMode] = useState(false);
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
     // Final Word
@@ -375,12 +375,26 @@ function App() {
 
     }, [isMatrixDrawn]);
 
+    useEffect(() => {
+
+        game.setColoursMode(darkMode, highContrastMode);
+
+    }, [darkMode, highContrastMode]);
+
+    useEffect(() => {
+
+        setDarkMode(game.isDarkMode());
+        setHighContrastMode(game.isAccessibleColourMode());
+
+    }, []);
+
     return (
         <div className="App">
 
             <div className="error"><Toaster/></div>
+
             <Statistics game={game} open={isStatisticsModalOpen} close={() => setIsStatisticsModalOpen(false)}/>
-            <Settings darkMode={darkMode} colourBlindMode={colourBlindMode} setDarkMode={setDarkMode} setColourBlindMode={setColourBlindMode} open={isSettingsModalOpen} close={() => setIsSettingsModalOpen(false)}/>
+            <Settings darkMode={darkMode} highContrastMode={highContrastMode} setDarkMode={setDarkMode} setHighContrastMode={setHighContrastMode} open={isSettingsModalOpen} close={() => setIsSettingsModalOpen(false)}/>
 
             <Navbar>
                 <Container>

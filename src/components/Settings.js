@@ -1,13 +1,8 @@
-import {Modal, Dropdown, DropdownButton} from "react-bootstrap";
+import {Modal, Form} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
 import toast from 'react-hot-toast';
 
 function Settings(props) {
-
-    useEffect(() => {
-
-
-    }, [props.open]);
 
     return (
 
@@ -19,8 +14,17 @@ function Settings(props) {
 
             <Modal.Body>
 
+                <Form.Check
+                    type="switch"
+                    onChange={e => props.setDarkMode(e.target.checked)}
+                    label="Dark Theme"
+                />
 
-
+                <Form.Check
+                    type="switch"
+                    onChange={e => props.setHighContrastMode(e.target.checked)}
+                    label="High Contrast Mode"
+                />
 
             </Modal.Body>
 
