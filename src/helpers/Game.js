@@ -594,7 +594,7 @@ export default class Game {
 
         let darkTheme = this.storage.get("dark_theme");
 
-        return darkTheme === 'true';
+        return darkTheme == 'true';
 
     };
 
@@ -602,7 +602,7 @@ export default class Game {
 
         let accessibleColourMode = this.storage.get("accessible_colour_mode");
 
-        return accessibleColourMode === 'true';
+        return accessibleColourMode == 'true';
 
     };
 

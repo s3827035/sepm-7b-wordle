@@ -228,7 +228,7 @@ function Statistics(props) {
 
     return (
 
-        <Modal show={props.open} onHide={props.close} animation={true}>
+        <Modal show={props.open} onHide={props.close} animation={true} className={"game " + (props.darkMode ? 'darkm' : '') + " " + (props.highContrastMode ? 'high-contrastm' : '')}>
 
             <Modal.Header closeButton>
                 <Modal.Title className="h4"><b>Statistics</b></Modal.Title>

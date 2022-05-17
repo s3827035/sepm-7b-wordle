@@ -43,8 +43,9 @@ function App() {
 
     // Settings modal
 
-    const [darkMode, setDarkMode] = useState(false);
-    const [highContrastMode, setHighContrastMode] = useState(false);
+    const [darkMode, setDarkMode] = useState(null);
+    const [highContrastMode, setHighContrastMode] = useState(null);
+
     const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
     // Final Word
@@ -377,7 +378,9 @@ function App() {
 
     useEffect(() => {
 
-        game.setColoursMode(darkMode, highContrastMode);
+        if (darkMode !== null && highContrastMode !== null) {
+            game.setColoursMode(darkMode, highContrastMode);
+        }
 
     }, [darkMode, highContrastMode]);
 
@@ -389,14 +392,14 @@ function App() {
     }, []);
 
     return (
-        <div className="App">
+        <div className={"game " + (darkMode ? 'dark' : '') + " " + (highContrastMode ? 'high-contrast' : '')}>
 
             <div className="error"><Toaster/></div>
 
-            <Statistics game={game} open={isStatisticsModalOpen} close={() => setIsStatisticsModalOpen(false)}/>
+            <Statistics game={game} darkMode={darkMode} highContrastMode={highContrastMode} open={isStatisticsModalOpen} close={() => setIsStatisticsModalOpen(false)}/>
             <Settings darkMode={darkMode} highContrastMode={highContrastMode} setDarkMode={setDarkMode} setHighContrastMode={setHighContrastMode} open={isSettingsModalOpen} close={() => setIsSettingsModalOpen(false)}/>
 
-            <Navbar>
+            <Navbar className={darkMode ? 'navbar-dark' : ''}>
                 <Container>
                     <Navbar.Toggle/>
 

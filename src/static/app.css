@@ -4,6 +4,10 @@ html, body {
     font-family: 'Roboto', sans-serif !important;
 }
 
+.game {
+    height: 100vh;
+}
+
 .tile {
     display: inline-flex;
     justify-content: center;
@@ -177,3 +181,48 @@ html, body {
 #big {
     width: 100px;
 }
+
+.dark {
+    background: #121213 !important;
+}
+
+.dark .tile {
+    background: #121213;
+    border: 2px solid #3a3a3c;
+    color: white;
+}
+
+.dark .tile.filled {
+    border: 2px solid #565758;
+}
+
+.dark .vl-match {
+    background: #538d4e;
+    border: 2px solid #538d4e !important;
+}
+
+.dark .vl-partial {
+    background: #b59f3b;
+    border: 2px solid #b59f3b !important;
+}
+
+.dark .vl-incorrect {
+    background: #3a3a3c;
+    border: 2px solid #3a3a3c !important;
+}
+
+.high-contrast .vl-match {
+    background: #f5793a;
+    border: 2px solid #f5793a !important;
+}
+
+.high-contrast .vl-partial {
+    background: #85c0f9;
+    border: 2px solid #85c0f9 !important;
+}
+
+.darkm .modal-content {
+    background: #121213 !important;
+    color: white;
+}
+
