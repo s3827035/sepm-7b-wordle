@@ -592,6 +592,8 @@ export default class Game {
 
     isDarkMode = () => {
 
+        // Load dark theme status from storage
+
         let darkTheme = this.storage.get("dark_theme");
 
         return darkTheme == 'true';
@@ -600,6 +602,8 @@ export default class Game {
 
     isAccessibleColourMode = () => {
 
+        // Load high contrast theme status from storage
+
         let accessibleColourMode = this.storage.get("accessible_colour_mode");
 
         return accessibleColourMode == 'true';
@@ -607,6 +611,8 @@ export default class Game {
     };
 
     setColoursMode = (dark, accessible) => {
+
+        // Update storage
 
         this.storage.set("dark_theme", dark);
         this.storage.set("accessible_colour_mode", accessible);
