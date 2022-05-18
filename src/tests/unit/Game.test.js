@@ -204,3 +204,23 @@ describe("Unit Testing: Guess Distributions (Visual)", () => {
     });
 
 });
+
+describe("Unit Testing: Colour Modes", () => {
+
+    test('Enable Dark Mode', async () => {
+
+        game.setColoursMode(true, false);
+
+        expect(game.isDarkMode()).toEqual(true);
+
+    });
+
+    test('Enable Accessibility Mode', async () => {
+
+        game.setColoursMode(false, true);
+
+        expect(game.isAccessibleColourMode()).toEqual(true);
+
+    });
+
+});

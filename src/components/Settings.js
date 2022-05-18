@@ -16,6 +16,7 @@ function Settings(props) {
 
                 <Form.Check
                     type="switch"
+                    id="dark_mode"
                     checked={props.darkMode}
                     onChange={e => props.setDarkMode(e.target.checked)}
                     label="Dark Theme"
@@ -23,6 +24,7 @@ function Settings(props) {
 
                 <Form.Check
                     type="switch"
+                    id="accessibility_mode"
                     checked={props.highContrastMode}
                     onChange={e => props.setHighContrastMode(e.target.checked)}
                     label="High Contrast Mode"

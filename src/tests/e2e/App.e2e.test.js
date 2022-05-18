@@ -7,9 +7,11 @@ describe("Entering word tests", () => {
 
     beforeAll(async () => {
 
+        jest.setTimeout(15000);
+
         browser = await puppeteer.launch({
             dumpio: true,
-            headless: false
+            headless: true
         });
 
         page = await browser.newPage();
@@ -175,6 +177,30 @@ describe("Entering word tests", () => {
 
     });
 
+    afterAll(() => browser.close());
+
+});
+
+describe("Checking statistics tests", () => {
+
+    let browser;
+    let page;
+
+    beforeAll(async () => {
+
+        jest.setTimeout(15000);
+
+        browser = await puppeteer.launch({
+            dumpio: true,
+            headless: true
+        });
+
+        page = await browser.newPage();
+
+        await page.goto("http://localhost:3000");
+
+    });
+
     describe("Testing for Statistics modal", () => {
 
         it("check that timer updates every seconds", async () => {
@@ -260,6 +286,8 @@ describe("Entering word tests", () => {
 
             await page.click("a[id='statistics-link']");
 
+            await page.waitForTimeout(500);
+
             const spanTexts = await page.$$eval('.guess-distribution span', elements => elements.map(el => el.innerText));
 
             for (let i = 0; i < 6; ++i) {
@@ -267,6 +295,80 @@ describe("Entering word tests", () => {
             }
 
         });
+
+    });
+
+    afterAll(() => browser.close());
+
+});
+
+describe("Checking colour modes", () => {
+
+    let browser;
+    let page;
+
+    beforeAll(async () => {
+
+        jest.setTimeout(15000);
+
+        browser = await puppeteer.launch({
+            dumpio: true,
+            headless: true
+        });
+
+        page = await browser.newPage();
+
+        await page.goto("http://localhost:3000");
+
+    });
+
+    describe("Check colour modes", () => {
+
+        it("Check if dark mode is working or not", async () => {
+
+            await page.click("a[id='settings-link']");
+            await page.waitForTimeout(500);
+            await page.click("input[id='dark_mode']");
+
+            const elHandleArray = await page.$$('.dark');
+
+            expect(elHandleArray.length).toBeGreaterThanOrEqual(1);
+
+        });
+
+        it("Check if accessibility mode is working or not", async () => {
+
+            await page.click("input[id='accessibility_mode']");
+
+            const elHandleArray = await page.$$('.high-contrast');
+
+            expect(elHandleArray.length).toBeGreaterThanOrEqual(1);
+
+        });
+
+    });
+
+    afterAll(() => browser.close());
+
+});
+
+describe("Share", () => {
+
+    let browser;
+    let page;
+
+    beforeAll(async () => {
+
+        jest.setTimeout(15000);
+
+        browser = await puppeteer.launch({
+            dumpio: true,
+            headless: false
+        });
+
+        page = await browser.newPage();
+
+        await page.goto("http://localhost:3000");
 
     });
 
@@ -296,7 +398,7 @@ describe("Entering word tests", () => {
 
             expect((await browser.pages()).length).toBe(2);
 
-        });
+        }, 15000);
 
         it("check if twitter share works", async () => {
 
@@ -324,9 +426,9 @@ describe("Entering word tests", () => {
             await page.click("button[id='dropdown-basic-button']");
             await page.click("a[id='tw-share']");
 
-            await page.waitForTimeout(500);
+            await page.waitForTimeout(1000);
 
-            expect((await browser.pages()).length).toBe(3);
+            expect((await browser.pages()).length).toBe(4);
 
         }, 15000);
 
