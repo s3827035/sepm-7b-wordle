@@ -125,6 +125,10 @@ function Statistics(props) {
                         window.open("https://twitter.com/home", '_blank');
                     }
 
+                    if (network === 'IS') {
+                        window.open("https://www.instagram.com/", '_blank');
+                    }
+
                 });
 
         } else {
@@ -294,6 +298,7 @@ function Statistics(props) {
                         <DropdownButton id="dropdown-basic-button" title="Share" size="lg">
                             <Dropdown.Item onClick={() => share('FB')} id="fb-share">Facebook</Dropdown.Item>
                             <Dropdown.Item onClick={() => share('TW')} id="tw-share">Twitter</Dropdown.Item>
+                            <Dropdown.Item onClick={() => share('IS')} id="is-share">Instagram</Dropdown.Item>
                         </DropdownButton>
 
                     </div>
