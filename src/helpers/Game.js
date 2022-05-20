@@ -633,7 +633,13 @@ export default class Game {
             for (let j = 0; j < compare.length; ++j) {
 
                 if (row[j] === letter) {
+
                     matchType = compare[j];
+
+                    if (matchType === 'MATCH') {
+                        return matchType;
+                    }
+
                 }
 
             }
