@@ -224,3 +224,16 @@ describe("Unit Testing: Colour Modes", () => {
     });
 
 });
+
+describe("Unit Testing: Keyboard", () => {
+
+    test('Check the colour of the key', async () => {
+
+        localStorage.setItem('wordle', 'gamer');
+        localStorage.setItem('matrix', '[["S","A","U","L","T"]]');
+
+        expect(game.getMatchType("A")).toEqual("MATCH");
+
+    });
+
+});

@@ -7,6 +7,8 @@ function Key({keyVal, isBigKey}) {
 
     const keyPress = () => {
 
+        // Send the appropriate event based on the key pressed
+
         if (keyVal === "ENTER") {
 
             keyPressHandler({
@@ -34,7 +36,7 @@ function Key({keyVal, isBigKey}) {
 
     let type = game.getMatchType(keyVal);
 
-    return <div key={keyVal} className={"key " + ('k-vl-' + type.toLowerCase())} id={isBigKey && "big"} onClick={keyPress}>{keyVal}</div>;
+    return <div key={keyVal} className={"key " + ('k-vl-' + type.toLowerCase()) + (isBigKey ? " big" : '')} id={"Key" + keyVal} onClick={keyPress}>{keyVal}</div>;
 
 }
 

@@ -621,20 +621,34 @@ export default class Game {
 
     getMatchType = (letter) => {
 
+        // Load the matrix
+
         let matrix = this.getGameMatrix();
         let matchType = 'NOT_COVERED';
 
+        // Loop through each row
+
         for (let i = 0; i < matrix.length; ++i) {
+
+            // Form a row and compare
 
             let row = matrix[i];
             let formedWord = row[0] + row[1] + row[2] + row[3] + row[4];
             let compare = this.compareWithTodayWord(formedWord);
 
+            // Loop through letter
+
             for (let j = 0; j < compare.length; ++j) {
+
+                // If the row is same as we are checking for
 
                 if (row[j] === letter) {
 
+                    // Check comparison type
+
                     matchType = compare[j];
+
+                    // If we have a match, return immediately
 
                     if (matchType === 'MATCH') {
                         return matchType;

@@ -302,6 +302,134 @@ describe("Checking statistics tests", () => {
 
 });
 
+
+describe("Onscreen Keyboard", () => {
+
+    let browser;
+    let page;
+
+    beforeAll(async () => {
+
+        jest.setTimeout(15000);
+
+        browser = await puppeteer.launch({
+            dumpio: true,
+            headless: true
+        });
+
+        page = await browser.newPage();
+
+        await page.goto("http://localhost:3000");
+
+    });
+
+    describe("Testing events", () => {
+
+        it("check if keys can be pressed", async () => {
+
+            await page.evaluate(() => localStorage.clear());
+            await page.reload({waitUntil: ["networkidle0", "domcontentloaded"]});
+
+            for (let i = 0; i < 6; ++i) {
+
+                await page.waitForTimeout(200);
+
+                await page.evaluate(() => {
+                    document.querySelector('#KeyG').click();
+                });
+
+                await page.evaluate(() => {
+                    document.querySelector('#KeyA').click();
+                });
+
+                await page.evaluate(() => {
+                    document.querySelector('#KeyM').click();
+                });
+
+                await page.evaluate(() => {
+                    document.querySelector('#KeyE').click();
+                });
+
+                await page.evaluate(() => {
+                    document.querySelector('#KeyR').click();
+                });
+
+                await page.evaluate(() => {
+                    document.querySelector('#KeyENTER').click();
+                });
+
+            }
+
+            await page.evaluate(() => {
+                document.querySelector('#KeyENTER').click();
+            });
+
+            await page.waitForTimeout(500);
+
+            const text = await page.$eval(".end-condition", (e) => e.textContent);
+            const wordOfTheDay = await page.evaluate(() => localStorage.getItem("wordle"));
+
+            expect(text).toContain(wordOfTheDay);
+
+        });
+
+        it("check if classes are updated", async () => {
+
+            await page.evaluate(() => localStorage.clear());
+            await page.reload({waitUntil: ["networkidle0", "domcontentloaded"]});
+
+            await page.evaluate(() => localStorage.setItem('wordle', 'gamer'));
+
+            for (let i = 0; i < 6; ++i) {
+
+                await page.waitForTimeout(200);
+
+                await page.evaluate(() => {
+                    document.querySelector('#KeyG').click();
+                });
+
+                await page.evaluate(() => {
+                    document.querySelector('#KeyA').click();
+                });
+
+                await page.evaluate(() => {
+                    document.querySelector('#KeyM').click();
+                });
+
+                await page.evaluate(() => {
+                    document.querySelector('#KeyE').click();
+                });
+
+                await page.evaluate(() => {
+                    document.querySelector('#KeyR').click();
+                });
+
+                await page.evaluate(() => {
+                    document.querySelector('#KeyENTER').click();
+                });
+
+            }
+
+            await page.evaluate(() => {
+                document.querySelector('#KeyENTER').click();
+            });
+
+            await page.waitForTimeout(500);
+
+            const el = await page.$('#KeyG');
+            const className = await el.getProperty('className');
+            const jsonVal = await className.jsonValue();
+
+            expect(jsonVal).toEqual("key k-vl-match");
+
+        });
+
+    });
+
+    afterAll(() => browser.close());
+
+});
+
 describe("Checking colour modes", () => {
 
     let browser;
