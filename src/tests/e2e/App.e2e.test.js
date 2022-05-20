@@ -432,6 +432,39 @@ describe("Share", () => {
 
         }, 15000);
 
+
+        it("check if instagram share works", async () => {
+
+            await page.waitForTimeout(500);
+            await (await browser.pages())[1].bringToFront();
+            await page.waitForTimeout(500);
+
+            await page.evaluate(() => localStorage.clear());
+            await page.reload({waitUntil: ["networkidle0", "domcontentloaded"]});
+
+            for (let i = 0; i < 6; ++i) {
+                await page.waitForTimeout(200);
+                await page.keyboard.down('KeyG');
+                await page.keyboard.down('KeyA');
+                await page.keyboard.down('KeyM');
+                await page.keyboard.down('KeyE');
+                await page.keyboard.down('KeyR');
+                await page.keyboard.press('Enter');
+            }
+
+            await page.keyboard.press('Enter');
+            await page.waitForTimeout(500);
+
+            await page.click("a[id='statistics-link']");
+            await page.click("button[id='dropdown-basic-button']");
+            await page.click("a[id='is-share']");
+
+            await page.waitForTimeout(1000);
+
+            expect((await browser.pages()).length).toBe(5);
+
+        }, 15000);
+
     });
 
     afterAll(() => browser.close());
