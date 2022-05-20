@@ -3,7 +3,7 @@ import {AppContext} from "../App";
 
 function Key({keyVal, isBigKey}) {
 
-    const {board, setBoard, currAttempt, setCurrAttempt, keyPressHandler} = useContext(AppContext);
+    const {game, keyPressHandler} = useContext(AppContext);
 
     const keyPress = () => {
 
@@ -30,10 +30,11 @@ function Key({keyVal, isBigKey}) {
 
         }
 
-
     };
 
-    return <div key={keyVal} className="key" id={isBigKey && "big"} onClick={keyPress}>{keyVal}</div>;
+    let type = game.getMatchType(keyVal);
+
+    return <div key={keyVal} className={"key " + ('k-vl-' + type.toLowerCase())} id={isBigKey && "big"} onClick={keyPress}>{keyVal}</div>;
 
 }
 

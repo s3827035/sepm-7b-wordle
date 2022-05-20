@@ -619,4 +619,29 @@ export default class Game {
 
     };
 
+    getMatchType = (letter) => {
+
+        let matrix = this.getGameMatrix();
+        let matchType = 'NOT_COVERED';
+
+        for (let i = 0; i < matrix.length; ++i) {
+
+            let row = matrix[i];
+            let formedWord = row[0] + row[1] + row[2] + row[3] + row[4];
+            let compare = this.compareWithTodayWord(formedWord);
+
+            for (let j = 0; j < compare.length; ++j) {
+
+                if (row[j] === letter) {
+                    matchType = compare[j];
+                }
+
+            }
+
+        }
+
+        return matchType;
+
+    };
+
 }

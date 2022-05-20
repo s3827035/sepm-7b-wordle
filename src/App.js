@@ -420,7 +420,7 @@ function App() {
                 <div id="word-of-the-day" className={finalWord === null ? 'hidden-word' : ''}>{game.getEndCondition()}</div>
             </div>
 
-            <AppContext.Provider value={{board, setBoard, currAttempt, setCurrAttempt, keyPressHandler}}>
+            <AppContext.Provider value={{board, game, setBoard, currAttempt, setCurrAttempt, keyPressHandler}}>
 
                 <div className="game-rows">
 
